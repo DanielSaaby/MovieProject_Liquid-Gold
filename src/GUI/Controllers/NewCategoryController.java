@@ -43,7 +43,10 @@ public class NewCategoryController implements Initializable
         // TODO
     }
 
-    private void okAddNewCategory(ActionEvent event)
+
+
+    @FXML
+    private void saveNewCategoryEvent(ActionEvent event)
     {
         String categoryName = addNewCategoryTextField.getText();
 
@@ -66,13 +69,10 @@ public class NewCategoryController implements Initializable
     }
 
     @FXML
-    private void saveNewCategoryEvent(ActionEvent event)
-    {
-    }
-
-    @FXML
     private void cancelNewCategoryEvent(ActionEvent event)
     {
+        Stage stage = (Stage) cancelNewCategory.getScene().getWindow();
+        stage.close();
     }
     
         public void setModel(Model model) 

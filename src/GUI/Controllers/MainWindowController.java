@@ -33,20 +33,16 @@ public class MainWindowController implements Initializable
 {
     private Model model;
 
-    public MainWindowController()
+    public MainWindowController() throws SQLException, IOException
     {
-        this.model = model;
+        this.model = new Model();
     }
     
 
     @FXML
-    private TableView catMovieTableView;
+    private TableView<Category> catMovieTableView;
     @FXML
-    private TableColumn categoryTableColumn;
-    
- 
-    private TableView<Category> categoryTableView;
-    private TableColumn<Category, String> categoryTableColumnn;
+    private TableColumn<Category, String> categoryTableColumn;
    
     /**
      * Initializes the controller class.
@@ -54,9 +50,7 @@ public class MainWindowController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-       catMovieTableView = categoryTableView;
-       categoryTableColumn = categoryTableColumnn;
-       
+        
        catMovieTableView.setItems(model.getAllCategory());
        categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
     }    
@@ -77,6 +71,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void deleteCategoryEvent(ActionEvent event)
     {
+       catMovieTableView.setVisible(false);
         
     }
     

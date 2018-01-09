@@ -71,7 +71,6 @@ public class MainWindowController implements Initializable
     @FXML
     private void deleteCategoryEvent(ActionEvent event)
     {
-       catMovieTableView.setVisible(false);
         
     }
     

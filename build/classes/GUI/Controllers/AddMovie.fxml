@@ -8,16 +8,16 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="264.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="GUI.Controllers.AddMovieControllerController">
    <children>
-      <TextField layoutX="59.0" layoutY="111.0" />
-      <Text layoutX="65.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie Title" />
-      <TextField layoutX="59.0" layoutY="175.0" />
-      <TextField layoutX="59.0" layoutY="236.0" />
-      <Text layoutX="60.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating" />
-      <Text layoutX="62.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre" />
-      <Text layoutX="127.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Ex: 6.0)" />
-      <Button layoutX="69.0" layoutY="296.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="133.0" layoutY="296.0" mnemonicParsing="false" text="Cancel" />
-      <Button layoutX="90.0" layoutY="14.0" mnemonicParsing="false" text="Choose file" />
-      <TextField layoutX="59.0" layoutY="49.0" />
+      <TextField fx:id="movieTitletxtField" layoutX="58.0" layoutY="137.0" />
+      <Text layoutX="64.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie Title" />
+      <TextField fx:id="ratingTxtField" layoutX="59.0" layoutY="200.0" />
+      <TextField fx:id="genreTxtField" layoutX="59.0" layoutY="259.0" />
+      <Text layoutX="59.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating" />
+      <Text layoutX="61.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre" />
+      <Text layoutX="123.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Ex: 6.0)" />
+      <Button layoutX="74.0" layoutY="309.0" mnemonicParsing="false" onAction="#saveMovieBtn" text="Save" />
+      <Button layoutX="132.0" layoutY="309.0" mnemonicParsing="false" onAction="#cancelAddMovieBtn" text="Cancel" />
+      <Button layoutX="95.0" layoutY="28.0" mnemonicParsing="false" onAction="#chooseFileBtn" text="Choose file" />
+      <TextField fx:id="filePathTxt" layoutX="59.0" layoutY="62.0" />
    </children>
 </AnchorPane>

@@ -13,7 +13,7 @@
          <children>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="236.0">
                <children>
-                  <TableView fx:id="catMovieTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="226.0">
+                  <TableView fx:id="catMovieTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectCategoryMouseEvent" prefHeight="402.0" prefWidth="226.0">
                     <columns>
                       <TableColumn fx:id="categoryTableColumn" prefWidth="225.5999939084053" text="Category" />
                     </columns>
@@ -24,11 +24,11 @@
             </AnchorPane>
             <AnchorPane>
                <children>
-                  <Button layoutY="418.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Remove Movie" />
-                  <Button layoutY="451.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Movie" />
-                  <TableView prefHeight="402.0" prefWidth="226.0">
+                  <Button fx:id="removeMovieBtn" layoutY="418.0" mnemonicParsing="false" onAction="#removeMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Remove Movie" />
+                  <Button fx:id="deleteMovieBtn" layoutY="451.0" mnemonicParsing="false" onAction="#deleteMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Movie" />
+                  <TableView fx:id="movieTableView" prefHeight="402.0" prefWidth="226.0">
                     <columns>
-                      <TableColumn prefWidth="225.60001220703126" text="Movie" />
+                      <TableColumn fx:id="movieTableColumn" prefWidth="225.60001220703126" text="Movie" />
                     </columns>
                   </TableView>
                </children>

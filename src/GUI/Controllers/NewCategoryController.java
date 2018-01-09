@@ -75,7 +75,7 @@ public class NewCategoryController implements Initializable
         stage.close();
     }
     
-        public void setModel(Model model) 
+    public void setModel(Model model) 
     {
         this.model = model;
     }

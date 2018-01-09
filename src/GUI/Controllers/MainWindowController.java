@@ -7,7 +7,11 @@ package GUI.Controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 /**
  * FXML Controller class
@@ -17,6 +21,11 @@ import javafx.fxml.Initializable;
 public class MainWindowController implements Initializable
 {
 
+    @FXML
+    private TableView<?> catMovieTableView;
+    @FXML
+    private TableColumn<?, ?> categoryTableColumn;
+
     /**
      * Initializes the controller class.
      */
@@ -25,5 +34,15 @@ public class MainWindowController implements Initializable
     {
         // TODO
     }    
+
+    @FXML
+    private void addCategoryEvent(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void deleteCategoryEvent(ActionEvent event)
+    {
+    }
     
 }

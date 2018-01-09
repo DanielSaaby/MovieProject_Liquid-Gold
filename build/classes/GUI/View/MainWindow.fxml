@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MainWindowController">
-    
-</AnchorPane>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MainWindowController">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="catMovieTableView" prefHeight="354.0" prefWidth="226.0">
+              <columns>
+                <TableColumn fx:id="categoryTableColumn" prefWidth="225.5999939084053" text="Category" />
+              </columns>
+            </TableView>
+            <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#addCategoryEvent" prefHeight="26.0" prefWidth="98.0" text="Add Category" />
+            <Button layoutX="12.0" layoutY="402.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" text="Delete Category" />
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

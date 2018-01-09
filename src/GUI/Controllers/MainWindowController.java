@@ -53,6 +53,14 @@ public class MainWindowController implements Initializable
     private Button removeMovieBtn;
     @FXML
     private Button deleteMovieBtn;   
+    @FXML
+    private Button addCategoryBtn;
+    @FXML
+    private Button deleteCategoryBtn;
+    @FXML
+    private Button removeCategoryBtn;
+    @FXML
+    private Button addMovieBtn;
     
     public MainWindowController() throws SQLException, IOException
     {
@@ -114,6 +122,11 @@ public class MainWindowController implements Initializable
             removeMovieBtn.setVisible(true);
             deleteMovieBtn.setVisible(true);
         }
+    }
+
+    @FXML
+    private void addMovieEvent(ActionEvent event)
+    {
     }
     
 }

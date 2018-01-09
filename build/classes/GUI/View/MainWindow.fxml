@@ -4,21 +4,36 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MainWindowController">
-   <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MainWindowController">
+   <children>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
          <children>
-            <TableView fx:id="catMovieTableView" prefHeight="354.0" prefWidth="226.0">
-              <columns>
-                <TableColumn fx:id="categoryTableColumn" prefWidth="225.5999939084053" text="Category" />
-              </columns>
-            </TableView>
-            <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#addCategoryEvent" prefHeight="26.0" prefWidth="98.0" text="Add Category" />
-            <Button layoutX="12.0" layoutY="402.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" text="Delete Category" />
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="236.0">
+               <children>
+                  <TableView fx:id="catMovieTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="226.0">
+                    <columns>
+                      <TableColumn fx:id="categoryTableColumn" prefWidth="225.5999939084053" text="Category" />
+                    </columns>
+                  </TableView>
+                  <Button layoutX="6.0" layoutY="419.0" mnemonicParsing="false" onAction="#addCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Add Category" />
+                  <Button layoutX="6.0" layoutY="451.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Category" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <Button layoutY="418.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Remove Movie" />
+                  <Button layoutY="451.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Movie" />
+                  <TableView prefHeight="402.0" prefWidth="226.0">
+                    <columns>
+                      <TableColumn prefWidth="225.60001220703126" text="Movie" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
-   </left>
-</BorderPane>
+      </HBox>
+   </children>
+</StackPane>

@@ -71,7 +71,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void deleteCategoryEvent(ActionEvent event)
     {
-        
+        int i = 1;
     }
     
 }

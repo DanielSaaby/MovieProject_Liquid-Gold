@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -34,9 +35,6 @@ import javafx.stage.Stage;
 public class MainWindowController implements Initializable
 {
     private Model model;
-
-
-    
 
     @FXML
     private TableView<Category> catMovieTableView;
@@ -54,19 +52,27 @@ public class MainWindowController implements Initializable
     @FXML
     private Button deleteMovieBtn;   
     
+    
+    
+    
     public MainWindowController() throws SQLException, IOException
     {
         this.model = new Model();
-    }   
+    }  
+    
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+       catMovieTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
        catMovieTableView.setItems(model.getAllCategory());
        categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
+      
        
        movieTableView.setItems(model.getAllMovie());
        movieTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
@@ -88,7 +94,21 @@ public class MainWindowController implements Initializable
         stage.setScene(new Scene(root1)); 
         stage.show();  
     }
-
+    
+    
+    @FXML
+    private void addMovieBtn(ActionEvent event) throws IOException 
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/AddMovie.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        AddMovieController amc = fxmlLoader.getController();
+        amc.setModel(model);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1)); 
+        stage.show();         
+    }
+    
+    
     @FXML
     private void deleteCategoryEvent(ActionEvent event)
     {
@@ -115,5 +135,7 @@ public class MainWindowController implements Initializable
             deleteMovieBtn.setVisible(true);
         }
     }
+
+
     
 }

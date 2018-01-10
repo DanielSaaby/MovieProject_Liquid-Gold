@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane prefHeight="461.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.CategoryAssignmentController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="456.0" prefWidth="634.0">
+         <children>
+            <Label fx:id="headerLbl" alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="59.0" prefWidth="616.0" text="Label">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+            <TableView fx:id="categoryTableView" layoutX="374.0" layoutY="111.0" prefHeight="307.0" prefWidth="245.0">
+              <columns>
+                <TableColumn fx:id="categoryTableColumn" prefWidth="244.79998168945312" text="Categories" />
+              </columns>
+            </TableView>
+            <TableView fx:id="movieCategoryTableView" layoutX="14.0" layoutY="111.0" prefHeight="307.0" prefWidth="245.0">
+               <columns>
+                  <TableColumn fx:id="movieCategoryTableColumn" prefWidth="244.79998168945312" />
+               </columns>
+            </TableView>
+            <Button layoutX="288.0" layoutY="154.0" mnemonicParsing="false" onAction="#addCategoryBtn" prefHeight="40.0" prefWidth="58.0" text="🡸">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Button>
+            <Button layoutX="287.0" layoutY="265.0" mnemonicParsing="false" onAction="#removeCategoryBtn" text="Remove" />
+            <Button layoutX="296.0" layoutY="299.0" mnemonicParsing="false" onAction="#saveCategoriesBtn" text="Save" />
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>

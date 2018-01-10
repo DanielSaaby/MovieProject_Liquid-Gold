@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class MovieDAO
 {
+    private Movie movie;
     private DatabaseConnector dbconnector;
 
     
@@ -89,6 +90,29 @@ public class MovieDAO
         
         Movie movie = new Movie(id, name, rating, filelink, lastview);
         return movie;
+    }
+
+    public Movie getLatestMovie() throws SQLException 
+    {        
+        try (Connection con = dbconnector.getConnection())
+        {
+            
+            
+            String sql ="SELECT * From Movie Where id=(SELECT max(id) From Movie);";
+            
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next())
+            {
+                 movie = getMovieFromResultSetRow(rs);
+            }
+            
+            
+        }
+        return movie;
+
+        
     }
     
     

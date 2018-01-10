@@ -63,6 +63,12 @@ public class Model
         obsListCategory.clear();
         obsListCategory.addAll(categorymanager.getAllCategory());
     }
+
+    public Movie getLatestMovie() throws SQLException 
+    {
+        Movie movie = moviemanager.getLatestMovie();
+        return movie;
+    }
     
     
     

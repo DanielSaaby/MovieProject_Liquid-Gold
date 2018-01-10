@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class MovieManager
 {
+
+
     private MovieDAO moviedao;
 
     public MovieManager() throws IOException
@@ -35,5 +37,9 @@ public class MovieManager
     {
         return moviedao.getAllMovies();
     }
-    
+    public Movie getLatestMovie() throws SQLException 
+    {
+        Movie movie = moviedao.getLatestMovie();
+        return movie;
+    }    
 }

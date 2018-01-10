@@ -6,8 +6,10 @@
 package GUI.Controllers;
 
 import BE.Category;
+import BE.Movie;
 import GUI.Model.Model;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +27,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class CategoryAssignmentController implements Initializable {
     
     private Model model;
+    private Movie movie;
+    private Category category;
 
     @FXML
     private Label headerLbl;
@@ -63,17 +67,18 @@ public class CategoryAssignmentController implements Initializable {
     }
 
     @FXML
-    private void saveCategoriesBtn(ActionEvent event) {
+    private void saveCategoriesBtn(ActionEvent event) 
+    {
     }
 
-    void prep(String title) 
+    void prep(String title) throws SQLException 
     {
        categoryTableView.setItems(model.getAllCategory());
-       categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));   
-       
-       headerLbl.setText("Select Categories for " + title);
-       
+       categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));         
+       headerLbl.setText("Select Categories for " + title);      
        movieCategoryTableColumn.setText(title);
+       
+       movie = model.getLatestMovie();
     }
 
 

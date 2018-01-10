@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MainWindowController">
-   <children>
+
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="800.0">
          <children>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="236.0">
@@ -19,13 +19,13 @@
                       <TableColumn fx:id="categoryTableColumn" prefWidth="225.5999939084053" text="Category" />
                     </columns>
                   </TableView>
-                  <Button layoutX="5.0" layoutY="475.0" mnemonicParsing="false" onAction="#addCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Add Category" />
                   <Button layoutX="5.0" layoutY="508.0" mnemonicParsing="false" onAction="#deleteCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Category" />
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addMovieBtn" prefHeight="43.0" prefWidth="90.0" text="Add Movie">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
+                  <Button fx:id="addCategoryBtn" layoutX="5.0" layoutY="475.0" mnemonicParsing="false" onAction="#addCategoryEvent" prefHeight="20.0" prefWidth="223.0" text="Add Category" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="515.0" prefWidth="226.0">
@@ -33,6 +33,7 @@
                   <Button fx:id="removeMovieBtn" layoutX="-1.0" layoutY="475.0" mnemonicParsing="false" onAction="#removeMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Remove Movie" />
                   <Button fx:id="deleteMovieBtn" layoutX="-1.0" layoutY="508.0" mnemonicParsing="false" onAction="#deleteMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Movie" />
                   <TableView fx:id="movieTableView" layoutX="-3.0" layoutY="62.0" prefHeight="402.0" prefWidth="226.0">
+                
                     <columns>
                       <TableColumn fx:id="movieTableColumn" prefWidth="225.60001220703126" text="Movie" />
                     </columns>
@@ -41,5 +42,4 @@
             </AnchorPane>
          </children>
       </HBox>
-   </children>
 </StackPane>

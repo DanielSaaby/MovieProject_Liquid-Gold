@@ -51,6 +51,8 @@ public class MainWindowController implements Initializable
     private Button removeMovieBtn;
     @FXML
     private Button deleteMovieBtn;   
+    @FXML
+    private Button addCategoryBtn;
     
     
     
@@ -135,7 +137,6 @@ public class MainWindowController implements Initializable
             deleteMovieBtn.setVisible(true);
         }
     }
-
-
-    
 }
+
+

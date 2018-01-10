@@ -5,6 +5,7 @@
  */
 package DAL;
 
+import BE.Category;
 import BE.Movie;
 import java.io.IOException;
 import java.sql.Connection;
@@ -112,6 +113,40 @@ public class MovieDAO
         }
         return movie;
 
+        
+    }
+
+    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
+    {
+        Boolean deleteable = isNewMovie;
+        
+        try (Connection con = dbconnector.getConnection())
+        {
+            
+            if(deleteable !=true)
+            {
+                String sql ="DELETE FROM CatMovie WHERE movieid =(?)";
+
+                PreparedStatement statement = con.prepareStatement(sql);
+                //Virker måske ik med movie object nullPointer
+                statement.setInt(1, movie.getId());
+                statement.executeUpdate();
+                
+            }
+           
+            String sql ="INSERT INTO CatMovie VALUES (?, ?)";
+            
+            PreparedStatement statement = con.prepareStatement(sql);
+                        
+            statement.setInt(1, category.getId());
+            statement.setInt(2, movie.getId());
+
+            
+            statement.executeUpdate();
+            
+        
+        }        
+        
         
     }
     

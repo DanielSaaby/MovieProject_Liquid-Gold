@@ -69,6 +69,11 @@ public class Model
         Movie movie = moviemanager.getLatestMovie();
         return movie;
     }
+
+    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
+    {
+        moviemanager.assignMovieCategory(category, movie, isNewMovie);
+    }
     
     
     

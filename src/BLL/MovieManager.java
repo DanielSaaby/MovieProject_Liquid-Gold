@@ -5,6 +5,7 @@
  */
 package BLL;
 
+import BE.Category;
 import BE.Movie;
 import DAL.MovieDAO;
 import java.io.IOException;
@@ -42,4 +43,9 @@ public class MovieManager
         Movie movie = moviedao.getLatestMovie();
         return movie;
     }    
+
+    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
+    {
+        moviedao.assignMovieCategory(category, movie, isNewMovie);
+    }
 }

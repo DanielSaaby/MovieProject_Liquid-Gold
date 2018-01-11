@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -80,6 +82,25 @@ public class CategoryDAO
         
         Category category = new Category(id, name);
         return category;
+    }
+
+    public void deleteCategory(Category selectedCategory)
+    {
+        try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "DELETE FROM Category WHERE categoryID = ?; DELETE FROM Category WHERE id = ?;";
+
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setInt(1, selectedCategory.getId());
+            statement.setInt(2, selectedCategory.getId());
+            
+            statement.executeUpdate();        
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

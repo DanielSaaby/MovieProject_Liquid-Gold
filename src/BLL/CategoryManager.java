@@ -37,5 +37,11 @@ public class CategoryManager
     {
         return categorydao.getAllCategory();
     }
+
+    public void deleteCategory(Category selectedCategory)
+    {
+        categorydao.deleteCategory(selectedCategory);
+    }
     
+
 }

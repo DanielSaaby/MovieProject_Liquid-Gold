@@ -115,15 +115,39 @@ public class MovieDAO
 
         
     }
+    
+    
+    public Movie getMovieById(int id) throws SQLException
+    {
+        try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "SELECT * FROM Movie WHERE id = ?;";
+
+            PreparedStatement statement = con.prepareStatement(sql);
+
+            statement.setInt(1, id);
+
+
+            
+                ResultSet rs = statement.executeQuery();
+                rs.next();
+
+                Movie m = getMovieFromResultSetRow(rs);
+                return m;
+            
+
+        }
+    }
+    
 
     public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
     {
-        Boolean deleteable = isNewMovie;
+        Boolean NewMovie = isNewMovie;
         
         try (Connection con = dbconnector.getConnection())
         {
             
-            if(deleteable !=true)
+            if(NewMovie !=true)
             {
                 String sql ="DELETE FROM CatMovie WHERE movieid =(?)";
 

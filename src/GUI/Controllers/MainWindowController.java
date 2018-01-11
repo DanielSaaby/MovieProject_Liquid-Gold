@@ -69,15 +69,14 @@ public class MainWindowController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
-    {
-       catMovieTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        
+    {        
        catMovieTableView.setItems(model.getAllCategory());
        categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
-      
+   
+        movieTableView.setItems(model.getAllMovieCategory());
+        movieTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
        
-       movieTableView.setItems(model.getAllMovie());
-       movieTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
+       
        movieTableView.setVisible(false);
        
        removeMovieBtn.setVisible(false);
@@ -128,10 +127,17 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
-    private void selectCategoryMouseEvent(MouseEvent event) 
+    private void selectCategoryMouseEvent(MouseEvent event) throws SQLException, IOException 
     {
         if(!catMovieTableView.getSelectionModel().isEmpty())
         {
+            movieTableView.getItems().clear();
+            Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
+            model.getAllMovieCategory(selectedCategory);
+            
+
+            
+            
             movieTableView.setVisible(true);
             removeMovieBtn.setVisible(true);
             deleteMovieBtn.setVisible(true);

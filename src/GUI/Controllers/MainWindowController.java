@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -75,8 +76,7 @@ public class MainWindowController implements Initializable
    
         movieTableView.setItems(model.getAllMovieCategory());
         movieTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
-       
-       
+        movieTableView.setPlaceholder(new Label("This category is empty"));
        movieTableView.setVisible(false);
        
        removeMovieBtn.setVisible(false);
@@ -111,12 +111,17 @@ public class MainWindowController implements Initializable
     
     
     @FXML
-    private void deleteCategoryEvent(ActionEvent event)
+    private void deleteCategoryEvent(ActionEvent event) throws SQLException
     {
         if(!catMovieTableView.getSelectionModel().isEmpty())
         {
             Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
             model.deleteCategory(selectedCategory);
+            
+            movieTableView.setVisible(false);
+       
+            removeMovieBtn.setVisible(false);
+            deleteMovieBtn.setVisible(false);
         }
     }
 

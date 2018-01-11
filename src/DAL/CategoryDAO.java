@@ -124,7 +124,7 @@ public class CategoryDAO
     {
         try (Connection con = dbconnector.getConnection())
         {
-            String sql = "DELETE FROM Category WHERE categoryID = ?; DELETE FROM Category WHERE id = ?;";
+            String sql = "DELETE FROM CatMovie WHERE categoryid = ?; DELETE FROM Category WHERE id = ?;";
 
             PreparedStatement statement = con.prepareStatement(sql);
             

@@ -88,9 +88,11 @@ public class Model
         obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));      
     }
     
-    public void deleteCategory(Category selectedCategory)
+    public void deleteCategory(Category selectedCategory) throws SQLException
     {
         categorymanager.deleteCategory(selectedCategory);
+        obsListCategory.clear();
+        obsListCategory.addAll(categorymanager.getAllCategory());
     }
     
     

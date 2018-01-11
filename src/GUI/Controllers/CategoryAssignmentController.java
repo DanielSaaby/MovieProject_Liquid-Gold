@@ -17,10 +17,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,6 +46,8 @@ public class CategoryAssignmentController implements Initializable {
     private TableView<Category> movieCategoryTableView;
     @FXML
     private TableColumn<Category, String> movieCategoryTableColumn;
+    @FXML
+    private Button saveCategoriesbtn;
     
     
     
@@ -102,7 +106,10 @@ public class CategoryAssignmentController implements Initializable {
         for (Category category : movieCategoryObsList) 
         {
             Boolean isNewMovie = true;
-              model.assignMovieCategory(category, movie, isNewMovie);
+            model.assignMovieCategory(category, movie, isNewMovie);
+            
+            Stage stage = (Stage) saveCategoriesbtn.getScene().getWindow();
+            stage.close(); 
         }
     }
 

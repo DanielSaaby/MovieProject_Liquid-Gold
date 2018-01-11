@@ -6,6 +6,7 @@
 package DAL;
 
 import BE.Category;
+import BE.Movie;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -74,6 +75,7 @@ public class CategoryDAO
             return allCategory;
         }
     }
+    
 
     private Category getCategoryFromResultSetRow(ResultSet rs) throws SQLException
     {
@@ -84,7 +86,41 @@ public class CategoryDAO
         return category;
     }
 
-    public void deleteCategory(Category selectedCategory)
+
+
+
+    public List<Movie> getAllMovieCategory(Category selectedCategory) throws SQLException, IOException 
+    {
+     
+        
+            try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "SELECT * FROM CatMovie WHERE categoryid = (?)";
+            
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            
+            statement.setInt(1, selectedCategory.getId());
+            
+            ResultSet rs = statement.executeQuery(); 
+            MovieDAO moviedao = new MovieDAO();
+            
+            List<Movie> allMovies = new ArrayList<>();
+            
+            while(rs.next())
+            {
+                int movieid = rs.getInt("movieid");
+                Movie movie = moviedao.getMovieById(movieid);
+                allMovies.add(movie);
+                
+            }
+            return allMovies;  
+        }
+
+
+    }
+    
+        public void deleteCategory(Category selectedCategory)
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -101,6 +137,6 @@ public class CategoryDAO
         {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
     
+}
 }

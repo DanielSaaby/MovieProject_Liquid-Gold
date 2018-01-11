@@ -41,7 +41,7 @@
                </font>
             </Button>
             <Button layoutX="287.0" layoutY="265.0" mnemonicParsing="false" onAction="#removeCategoryBtn" text="Remove" />
-            <Button layoutX="296.0" layoutY="299.0" mnemonicParsing="false" onAction="#saveCategoriesBtn" text="Save" />
+            <Button fx:id="saveCategoriesbtn" layoutX="296.0" layoutY="299.0" mnemonicParsing="false" onAction="#saveCategoriesBtn" text="Save" />
          </children>
       </AnchorPane>
    </children>

@@ -7,6 +7,7 @@ package BLL;
 
 
 import BE.Category;
+import BE.Movie;
 import DAL.CategoryDAO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,7 +34,12 @@ public class CategoryManager
     }
     
     
-    public List<Category> getAllCategory() throws SQLException
+    public List<Movie> getAllMovieCategory(Category selectedCategory) throws SQLException, IOException
+    {
+        return categorydao.getAllMovieCategory(selectedCategory);
+    }
+
+    public List<Category> getAllCategory() throws SQLException 
     {
         return categorydao.getAllCategory();
     }

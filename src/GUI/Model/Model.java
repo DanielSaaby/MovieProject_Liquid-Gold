@@ -11,6 +11,7 @@ import BLL.CategoryManager;
 import BLL.MovieManager;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,6 +23,7 @@ public class Model
 {
     private final ObservableList<Movie> obsListMovie;
     private final ObservableList<Category> obsListCategory;
+    private final ObservableList<Movie> obsListMovieCategory;
     
     MovieManager moviemanager;
     CategoryManager categorymanager;
@@ -34,6 +36,7 @@ public class Model
         
         this.obsListMovie = FXCollections.observableArrayList();
         this.obsListCategory = FXCollections.observableArrayList();
+        this.obsListMovieCategory = FXCollections.observableArrayList();
         
         obsListMovie.addAll(moviemanager.getAllMovies());
         obsListCategory.addAll(categorymanager.getAllCategory());
@@ -47,6 +50,11 @@ public class Model
     public ObservableList<Category> getAllCategory()
     {
         return obsListCategory;
+    }
+    
+    public ObservableList<Movie> getAllMovieCategory()
+    {
+        return obsListMovieCategory;
     }
     
     public void createMovie(String name, double rating, String filelink, int lastview) throws SQLException
@@ -73,6 +81,16 @@ public class Model
     public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
     {
         moviemanager.assignMovieCategory(category, movie, isNewMovie);
+    }
+
+    public void getAllMovieCategory(Category selectedCategory) throws SQLException, IOException 
+    {
+        obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));      
+    }
+    
+    public void deleteCategory(Category selectedCategory)
+    {
+        categorymanager.deleteCategory(selectedCategory);
     }
     
     

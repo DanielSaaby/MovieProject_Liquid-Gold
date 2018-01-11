@@ -9,6 +9,8 @@ import BE.Category;
 import BE.Movie;
 import DAL.MovieDAO;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -47,5 +49,15 @@ public class MovieManager
     public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
     {
         moviedao.assignMovieCategory(category, movie, isNewMovie);
+       
     }
-}
+
+    public void removeMovie(Movie selectedMovie) throws SQLException
+    {
+        moviedao.removeMovie(selectedMovie);
+    }
+    
+    
+    
+    }
+

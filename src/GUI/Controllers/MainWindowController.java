@@ -77,6 +77,7 @@ public class MainWindowController implements Initializable
         movieTableView.setItems(model.getAllMovieCategory());
         movieTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         movieTableView.setPlaceholder(new Label("This category is empty"));
+        
        movieTableView.setVisible(false);
        
        removeMovieBtn.setVisible(false);
@@ -126,32 +127,44 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
-    private void removeMovieEvent(ActionEvent event) 
+    private void removeMovieEvent(ActionEvent event) throws SQLException, IOException 
     {
+        if(!catMovieTableView.getSelectionModel().isEmpty())
+        { 
+            if(!movieTableView.getSelectionModel().isEmpty())
+            { 
+                Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
+                Movie selectedMovie = movieTableView.getSelectionModel().getSelectedItem();
+                model.removeMovie(selectedMovie, selectedCategory);
+        
+            }  
+        }
     }
 
     @FXML
     private void deleteMovieEvent(ActionEvent event) 
     {
+        
     }
 
     @FXML
     private void selectCategoryMouseEvent(MouseEvent event) throws SQLException, IOException 
     {
         if(!catMovieTableView.getSelectionModel().isEmpty())
-        {
-            movieTableView.getItems().clear();
-            Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
-            model.getAllMovieCategory(selectedCategory);
-            
-
+        {   
             
             
-            movieTableView.setVisible(true);
-            removeMovieBtn.setVisible(true);
-            deleteMovieBtn.setVisible(true);
+                movieTableView.getItems().clear();
+                Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
+                model.getAllMovieCategory(selectedCategory);
+ 
+                movieTableView.setVisible(true);
+                removeMovieBtn.setVisible(true);
+                deleteMovieBtn.setVisible(true);
+            
         }
     }
+    
 }
 
 

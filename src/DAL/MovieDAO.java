@@ -173,6 +173,25 @@ public class MovieDAO
         
         
     }
+
+    public void removeMovie(Movie selectedMovie) throws SQLException
+    {
+        try (Connection con = dbconnector.getConnection()) 
+        {
+            String sql = "DELETE FROM CatMovie WHERE movieid = (?)";
+            
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setInt(1, selectedMovie.getId());
+            
+            statement.executeUpdate();
+        
+        
+        }
+         
+            
+        
+    }
     
     
     

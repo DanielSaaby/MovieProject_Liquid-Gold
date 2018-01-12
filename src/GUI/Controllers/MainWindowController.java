@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import javafx.stage.Stage;
 
@@ -48,12 +49,19 @@ public class MainWindowController implements Initializable
     private TableColumn<Movie, String> movieTableColumn;
     
     
-    @FXML
-    private Button removeMovieBtn;
-    @FXML
-    private Button deleteMovieBtn;   
+  
     @FXML
     private Button addCategoryBtn;
+    @FXML
+    private AnchorPane movieInfoAp;
+    @FXML
+    private Label movieTitleLbl;
+    @FXML
+    private AnchorPane movieSelectionAp;
+    @FXML
+    private Label movieRatingLbl;
+    @FXML
+    private Label movieLastviewLbl;
     
     
     
@@ -73,15 +81,15 @@ public class MainWindowController implements Initializable
     {        
        catMovieTableView.setItems(model.getAllCategory());
        categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
+       catMovieTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
    
         movieTableView.setItems(model.getAllMovieCategory());
         movieTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         movieTableView.setPlaceholder(new Label("This category is empty"));
-        
-       movieTableView.setVisible(false);
-       
-       removeMovieBtn.setVisible(false);
-       deleteMovieBtn.setVisible(false);
+   
+        movieSelectionAp.setVisible(false);
+        movieInfoAp.setVisible(false);
+
     }    
   
 
@@ -119,10 +127,8 @@ public class MainWindowController implements Initializable
             Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
             model.deleteCategory(selectedCategory);
             
-            movieTableView.setVisible(false);
-       
-            removeMovieBtn.setVisible(false);
-            deleteMovieBtn.setVisible(false);
+            movieSelectionAp.setVisible(true);
+
         }
     }
 
@@ -158,11 +164,32 @@ public class MainWindowController implements Initializable
                 Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
                 model.getAllMovieCategory(selectedCategory);
  
-                movieTableView.setVisible(true);
-                removeMovieBtn.setVisible(true);
-                deleteMovieBtn.setVisible(true);
+                movieSelectionAp.setVisible(true);
             
         }
+    }
+
+    @FXML
+    private void selectMovieMouseEvent(MouseEvent event)
+    {
+        if(!movieTableView.getSelectionModel().isEmpty())
+        {
+            Movie selectedMovie = movieTableView.getSelectionModel().getSelectedItem();
+            
+            movieTitleLbl.setText(selectedMovie.getName());          
+            movieRatingLbl.setText(Double.toString(selectedMovie.getRating()) + " /10");
+            movieLastviewLbl.setText(Integer.toString(selectedMovie.getLastview()));
+            
+            movieInfoAp.setVisible(true);
+            
+           
+        }
+    }
+
+    @FXML
+    private void playMovieBtn(ActionEvent event) 
+    {
+        
     }
     
 }

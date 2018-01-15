@@ -12,7 +12,16 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import static java.util.Comparator.comparingInt;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -56,8 +65,22 @@ public class MovieManager
     {
         moviedao.removeMovie(selectedMovie);
     }
-    
-    
-    
+
+    public List<Movie> removeDublicates(ObservableList<Movie> obsListMovieCategory) 
+    {
+        List<Movie> unique = obsListMovieCategory.stream().collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingInt(Movie::getId))), ArrayList::new));
+        return unique;
     }
+
+
+
+
+        
+        
+    }
+    
+    
+    
+    
+    
 

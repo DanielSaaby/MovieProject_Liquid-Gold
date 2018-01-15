@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 public class AddMovieController {
     
     private Model model;
+    private String fileLink;
 
     @FXML
     private TextField movieTitletxtField;
@@ -50,7 +51,7 @@ public class AddMovieController {
     {
         String title = movieTitletxtField.getText();
         double rating = Double.parseDouble(ratingTxtField.getText().replace(",", "."));
-        String fileLink = filePathTxt.getText();
+        
         int lastview = 1;
         
         model.createMovie(title, rating, fileLink, lastview);
@@ -88,8 +89,8 @@ public class AddMovieController {
             System.out.println(selectedFile.getAbsolutePath());
             String fileName = selectedFile.getName().replace(".mp4", "");
             URL url = Paths.get(selectedFile.getAbsolutePath()).toUri().toURL();
-            Media musicFile = new Media(url.toString()); 
             movieTitletxtField.setText(fileName);
+            fileLink = selectedFile.toURI().toString();
         }
         
     }

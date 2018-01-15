@@ -48,6 +48,11 @@ public class CategoryManager
     {
         categorydao.deleteCategory(selectedCategory);
     }
+
+    public List<String> getAllCatForMovie(Movie selectedMovie) throws SQLException 
+    {
+        return categorydao.getAllCatForMovie(selectedMovie);
+    }
     
 
 }

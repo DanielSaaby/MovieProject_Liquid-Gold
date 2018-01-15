@@ -3,8 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/GUI/Model/Model.java</file>
+            <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/MovieProject.java</file>
+            <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/BLL/CategoryManager.java</file>
+            <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/DAL/CategoryDAO.java</file>
             <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/GUI/Controllers/MainWindowController.java</file>
+            <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/DAL/MovieDAO.java</file>
             <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/GUI/Controllers/AddMovieController.java</file>
+            <file>file:/C:/Users/frederik/Documents/GitHub/MovieProject_Liquid-Gold/src/GUI/Controllers/CategoryAssignmentController.java</file>
         </group>
     </open-files>
 </project-private>

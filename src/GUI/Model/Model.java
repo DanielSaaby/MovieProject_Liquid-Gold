@@ -11,7 +11,10 @@ import BLL.CategoryManager;
 import BLL.MovieManager;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -85,7 +88,11 @@ public class Model
 
     public void getAllMovieCategory(Category selectedCategory) throws SQLException, IOException 
     {
-        obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));      
+        obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));
+        
+        
+            
+        
     }
     
     public void deleteCategory(Category selectedCategory) throws SQLException
@@ -102,7 +109,25 @@ public class Model
         obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));
         
     }
-    
+
+    public void removeDublicates() 
+    {
+        obsListMovieCategory.setAll(moviemanager.removeDublicates(obsListMovieCategory));
+    }
+
+    public void filterRating(ObservableList<Movie> minRatingList) 
+    {
+        obsListMovieCategory.clear();
+        obsListMovieCategory.addAll(minRatingList);
+    }
+
+
+    public ObservableList<String> getAllCatForMovie(Movie selectedMovie) throws SQLException
+    {
+        ObservableList<String> obsListAllCatForMovie = FXCollections.observableArrayList();
+        obsListAllCatForMovie.addAll(categorymanager.getAllCatForMovie(selectedMovie));
+        return obsListAllCatForMovie;
+    }
     
     
 }

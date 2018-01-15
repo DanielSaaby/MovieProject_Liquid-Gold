@@ -93,7 +93,7 @@ public class CategoryDAO
     {
      
         
-            try (Connection con = dbconnector.getConnection())
+        try (Connection con = dbconnector.getConnection())
         {
             String sql = "SELECT * FROM CatMovie WHERE categoryid = (?)";
             
@@ -139,4 +139,49 @@ public class CategoryDAO
         }
     
 }
+
+    public List<String> getAllCatForMovie(Movie selectedMovie) throws SQLException 
+    {
+        try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "SELECT * FROM CatMovie WHERE movieid = (?)";
+            
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setInt(1, selectedMovie.getId());
+            
+            
+            ResultSet rs = statement.executeQuery();
+            
+            List<String> allCategory = new ArrayList<>();
+            
+            while(rs.next())
+            {
+                int categoryid = rs.getInt("categoryid");
+                Category category = getCategoryById(categoryid);
+                allCategory.add(category.getName()+"\n");
+            }
+            return allCategory;
+        }        
+    }
+    
+    public Category getCategoryById(int id) throws SQLException
+    {
+        try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "SELECT * FROM Category WHERE id = ?;";
+
+            PreparedStatement statement = con.prepareStatement(sql);
+
+            statement.setInt(1, id);
+
+
+            
+                ResultSet rs = statement.executeQuery();
+                rs.next();
+
+                Category m = getCategoryFromResultSetRow(rs);
+                return m;    
+        }
+    }
 }

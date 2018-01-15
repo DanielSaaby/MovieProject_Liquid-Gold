@@ -14,16 +14,26 @@ public class Movie
     private final int id;
     private String name;
     private double rating;
+    private int ratingP;
     private String filelink;
     private int lastview;
 
-    public Movie(int id, String name, double rating, String filelink, int lastview)
+    public Movie(int id, String name, double rating, int ratingP, String filelink, int lastview)
     {
         this.id = id;
         this.name = name;
         this.rating = rating;
+        this.ratingP = ratingP;
         this.filelink = filelink;
         this.lastview = lastview;
+    }
+
+    public int getRatingP() {
+        return ratingP;
+    }
+
+    public void setRatingP(int ratingP) {
+        this.ratingP = ratingP;
     }
 
     public int getId()

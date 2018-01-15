@@ -80,9 +80,9 @@ public class MainWindowController implements Initializable
     @FXML
     private ComboBox<Integer> minRatingComboBox;
     @FXML
-    private ListView<?> allCategoriesForMovieList;
-    @FXML
     private Label allCatForMovieLbl;
+    @FXML
+    private ComboBox<Integer> personalRatingComboBox;
     
     
     
@@ -115,6 +115,9 @@ public class MainWindowController implements Initializable
         minRatingComboBox.getItems().removeAll(minRatingComboBox.getItems());
         minRatingComboBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         minRatingComboBox.getSelectionModel().select(0);
+        
+        personalRatingComboBox.getItems().removeAll(personalRatingComboBox.getItems());
+        personalRatingComboBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     }    
   
 
@@ -178,7 +181,8 @@ public class MainWindowController implements Initializable
     @FXML
     private void deleteMovieEvent(ActionEvent event) 
     {
-        
+        Movie selectedMovie  = movieTableView.getSelectionModel().getSelectedItem();
+        System.out.println(selectedMovie);
     }
 
     @FXML
@@ -218,6 +222,7 @@ public class MainWindowController implements Initializable
             */
            
             allCatForMovieLbl.setText(model.getAllCatForMovie(selectedMovie).toString().replace("[", " ").replace("]", "").replace(",", ""));
+            personalRatingComboBox.getSelectionModel().select(selectedMovie.getRatingP());
             
             movieInfoAp.setVisible(true);
             
@@ -289,6 +294,18 @@ public class MainWindowController implements Initializable
             
         }
         model.filterRating(minRatingList);
+    }
+
+    @FXML
+    private void updatePersonalRatingEvent(ActionEvent event) throws SQLException 
+    {
+       
+       int newRating = personalRatingComboBox.getSelectionModel().getSelectedItem();
+       Movie movie = movieTableView.getSelectionModel().getSelectedItem();
+       
+       model.updatePersonalRating(newRating, movie);
+        
+      
     }
 
     

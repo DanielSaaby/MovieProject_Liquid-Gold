@@ -39,9 +39,9 @@ public class MovieManager
         
     }
     
-    public void createMovie(String name, double rating, String filelink, int lastview) throws SQLException
+    public void createMovie(String name, double rating, String filelink) throws SQLException
     {
-        moviedao.createMovie(name, rating, filelink, lastview);
+        moviedao.createMovie(name, rating, filelink);
     }
     
     
@@ -70,6 +70,11 @@ public class MovieManager
     {
         List<Movie> unique = obsListMovieCategory.stream().collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingInt(Movie::getId))), ArrayList::new));
         return unique;
+    }
+
+    public void updatePersonalRating(int newRating, Movie movie) throws SQLException 
+    {
+        moviedao.updatePersonalRating(newRating, movie);
     }
 
 

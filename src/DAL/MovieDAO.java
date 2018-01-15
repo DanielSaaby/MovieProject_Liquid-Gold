@@ -32,27 +32,28 @@ public class MovieDAO
         
     }
     
-    public Movie createMovie(String name, double rating, String filelink, int lastview) throws SQLException
+    public Movie createMovie(String name, double rating, String filelink) throws SQLException
     {
         
     
         try (Connection con = dbconnector.getConnection())
         {
-            String sql = "INSERT INTO Movie VALUES (?, ?, ?, ?)";
-            
+            String sql = "INSERT INTO Movie VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             statement.setString(1, name);
-            statement.setDouble(2, rating);
-            statement.setString(3, filelink);
-            statement.setInt(4, lastview);
+            statement.setInt(2, 0);
+            statement.setDouble(3, rating);
+            statement.setString(4, filelink);
+            statement.setInt(5, 0);
+            
             
             if(statement.executeUpdate() == 1)
             {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
-                Movie m = new Movie(id, name, rating, filelink, lastview);
+                Movie m = new Movie(id, name, rating, 0, filelink, 0);
                 return m;
             }
             throw new RuntimeException("Can't create movie");
@@ -85,11 +86,12 @@ public class MovieDAO
     {
         int id = rs.getInt("id");
         String name = rs.getString("name");
-        double rating = rs.getDouble("rating");
+        int ratingP = rs.getInt("ratingPersonal");
+        double rating = rs.getDouble("ratingIMDB");
         String filelink = rs.getString("filelink");
         int lastview = rs.getInt("lastview");
         
-        Movie movie = new Movie(id, name, rating, filelink, lastview);
+        Movie movie = new Movie(id, name, rating , ratingP, filelink, lastview);
         return movie;
     }
 
@@ -191,6 +193,21 @@ public class MovieDAO
          
             
         
+    }
+
+    public void updatePersonalRating(int newRating, Movie movie) throws SQLException 
+    {
+        try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "UPDATE Movie SET ratingPersonal = (?) WHERE id = (?);";
+            
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setInt(1, newRating);
+            statement.setInt(2, movie.getId());
+            
+            statement.executeUpdate();
+        }
     }
     
     

@@ -31,8 +31,8 @@
                   <Font name="Century" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="ratingTxtField" layoutX="27.0" layoutY="222.0" promptText="(optional)" />
-            <Label layoutX="26.0" layoutY="198.0" text="My rating out of 10:" />
+            <TextField fx:id="ratingTxtField" layoutX="27.0" layoutY="222.0" />
+            <Label layoutX="26.0" layoutY="198.0" text="IMDB-rating" />
          </children>
       </AnchorPane>
    </children>

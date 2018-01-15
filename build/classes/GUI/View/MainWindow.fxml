@@ -58,13 +58,13 @@
                         </font>
                      </Label>
                      <Label fx:id="movieRatingLbl" layoutX="166.0" layoutY="133.0" prefHeight="18.0" prefWidth="90.0" text="Label" />
-                     <Label fx:id="movieLastviewLbl" layoutX="166.0" layoutY="193.0" prefHeight="18.0" prefWidth="90.0" text="Label" />
-                     <Label layoutX="166.0" layoutY="115.0" prefHeight="18.0" prefWidth="90.0" text="Rating">
+                     <Label fx:id="movieLastviewLbl" layoutX="166.0" layoutY="245.0" prefHeight="18.0" prefWidth="90.0" text="Label" />
+                     <Label layoutX="166.0" layoutY="115.0" prefHeight="18.0" prefWidth="90.0" text="IMDB rating">
                         <font>
                            <Font name="System Bold" size="12.0" />
                         </font>
                      </Label>
-                     <Label layoutX="166.0" layoutY="175.0" prefHeight="18.0" prefWidth="75.0" text="Last viewed">
+                     <Label layoutX="166.0" layoutY="227.0" prefHeight="18.0" prefWidth="75.0" text="Last viewed">
                         <font>
                            <Font name="System Bold" size="12.0" />
                         </font>
@@ -80,6 +80,12 @@
                         </font>
                      </Label>
                      <Label fx:id="allCatForMovieLbl" layoutX="14.0" layoutY="133.0" text="Label" />
+                     <Label layoutX="166.0" layoutY="165.0" text="Personal rating">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                     <ComboBox fx:id="personalRatingComboBox" layoutX="166.0" layoutY="183.0" onAction="#updatePersonalRatingEvent" prefHeight="26.0" prefWidth="86.0" />
                   </children>
                </AnchorPane>
             </children></AnchorPane>

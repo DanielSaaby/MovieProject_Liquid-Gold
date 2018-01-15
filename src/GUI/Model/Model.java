@@ -60,9 +60,9 @@ public class Model
         return obsListMovieCategory;
     }
     
-    public void createMovie(String name, double rating, String filelink, int lastview) throws SQLException
+    public void createMovie(String name, double rating, String filelink) throws SQLException
     {
-        moviemanager.createMovie(name, rating, filelink, lastview);
+        moviemanager.createMovie(name, rating, filelink);
         obsListMovie.clear();
         obsListMovie.addAll(moviemanager.getAllMovies());
         
@@ -127,6 +127,11 @@ public class Model
         ObservableList<String> obsListAllCatForMovie = FXCollections.observableArrayList();
         obsListAllCatForMovie.addAll(categorymanager.getAllCatForMovie(selectedMovie));
         return obsListAllCatForMovie;
+    }
+
+    public void updatePersonalRating(int newRating, Movie movie) throws SQLException 
+    {
+        moviemanager.updatePersonalRating(newRating, movie);
     }
     
     

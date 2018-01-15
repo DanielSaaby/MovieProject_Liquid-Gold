@@ -179,10 +179,16 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
-    private void deleteMovieEvent(ActionEvent event) 
+    private void deleteMovieEvent(ActionEvent event) throws SQLException 
     {
-        Movie selectedMovie  = movieTableView.getSelectionModel().getSelectedItem();
-        System.out.println(selectedMovie);
+        if(!movieTableView.getSelectionModel().isEmpty())
+        {
+            Movie selectedMovie  = movieTableView.getSelectionModel().getSelectedItem();
+            model.deleteMovie(selectedMovie);
+
+        }
+
+
     }
 
     @FXML

@@ -77,6 +77,11 @@ public class MovieManager
         moviedao.updatePersonalRating(newRating, movie);
     }
 
+    public void deleteMovie(Movie selectedMovie) throws SQLException 
+    {
+        moviedao.deleteMovie(selectedMovie);
+    }
+
 
 
 

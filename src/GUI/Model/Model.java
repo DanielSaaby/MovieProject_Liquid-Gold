@@ -133,6 +133,11 @@ public class Model
     {
         moviemanager.updatePersonalRating(newRating, movie);
     }
+
+    public void deleteMovie(Movie selectedMovie) throws SQLException 
+    {
+        moviemanager.deleteMovie(selectedMovie);
+    }
     
     
 }

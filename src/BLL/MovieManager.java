@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import static java.util.Comparator.comparingInt;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -80,6 +82,30 @@ public class MovieManager
     public void deleteMovie(Movie selectedMovie) throws SQLException 
     {
         moviedao.deleteMovie(selectedMovie);
+    }
+
+    public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
+    {
+        moviedao.setLastView(selectedMovie);
+    }
+
+    public Movie getMovieById(int id) throws SQLException 
+    {
+        return moviedao.getMovieById(id);
+    }
+
+    public Boolean checkOutdatedMovies(Movie movie) 
+    {
+        long futureMili = Long.parseLong("86400000");
+        
+        Date futureDate = new Date(movie.getLastview().getTime() + futureMili);
+        Date movieDate = new Date(movie.getLastview().getTime());
+        
+        System.out.println(futureDate);
+        System.out.println(movieDate);
+                
+        return movieDate.after(futureDate);
+        
     }
 
 

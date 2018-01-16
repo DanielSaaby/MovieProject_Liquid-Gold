@@ -39,6 +39,7 @@ public class MovieProject extends Application
      */
     public static void main(String[] start)
     {
+        
         launch(start);
     }
     

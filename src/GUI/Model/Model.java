@@ -11,6 +11,7 @@ import BLL.CategoryManager;
 import BLL.MovieManager;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -137,6 +138,21 @@ public class Model
     public void deleteMovie(Movie selectedMovie) throws SQLException 
     {
         moviemanager.deleteMovie(selectedMovie);
+    }
+
+    public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
+    {
+        moviemanager.setLastView(selectedMovie);
+    }
+
+    public Movie getMovieById(int id) throws SQLException 
+    {
+        return moviemanager.getMovieById(id);
+    }
+
+    public Boolean checkOutdatedMovies(Movie movie) 
+    {
+         return moviemanager.checkOutdatedMovies(movie);
     }
     
     

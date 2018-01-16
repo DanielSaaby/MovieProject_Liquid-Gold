@@ -11,7 +11,9 @@ import GUI.Model.Model;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -25,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -118,6 +121,25 @@ public class MainWindowController implements Initializable
         
         personalRatingComboBox.getItems().removeAll(personalRatingComboBox.getItems());
         personalRatingComboBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        
+        for (Movie movie : model.getAllMovie()) 
+        {
+            if(movie.getLastview() != null)
+            {
+                if(movie.getRatingP() < 6)
+                {
+                
+                    if(model.checkOutdatedMovies(movie))
+                    {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Outdated movie");
+                        alert.setContentText("the movie " + movie.getName() + " has not been viewed in 2 years");
+                        alert.showAndWait();
+                    }
+                }                  
+            }           
+        }
     }    
   
 
@@ -219,13 +241,15 @@ public class MainWindowController implements Initializable
             
             movieTitleLbl.setText(selectedMovie.getName());          
             movieRatingLbl.setText(Double.toString(selectedMovie.getRating()) + " /10");
-            movieLastviewLbl.setText(Integer.toString(selectedMovie.getLastview()));
             
-           /* for (String categoryName : model.getAllCatForMovie(selectedMovie)
-)           {
-                System.out.println(categoryName);
+            if(selectedMovie.getLastview() != null)
+            {
+                movieLastviewLbl.setText(selectedMovie.getLastview().toString());
+            }else
+            {
+                movieLastviewLbl.setText("Not viewed yet");
             }
-            */
+            
            
             allCatForMovieLbl.setText(model.getAllCatForMovie(selectedMovie).toString().replace("[", " ").replace("]", "").replace(",", ""));
             personalRatingComboBox.getSelectionModel().select(selectedMovie.getRatingP());
@@ -237,7 +261,7 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
-    private void playMovieBtn(ActionEvent event) throws IOException 
+    private void playMovieBtn(ActionEvent event) throws IOException, SQLException, ParseException 
     {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/MediaWindow.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
@@ -250,6 +274,10 @@ public class MainWindowController implements Initializable
         
         stage.setScene(new Scene(root1)); 
         stage.show();  
+        
+        model.setLastView(movieTableView.getSelectionModel().getSelectedItem());
+        Movie updatedMovie = model.getMovieById(movieTableView.getSelectionModel().getSelectedItem().getId());
+        movieLastviewLbl.setText(updatedMovie.getLastview().toString());
     }
 
     @FXML
@@ -284,9 +312,9 @@ public class MainWindowController implements Initializable
     @FXML
     private void filterRatingEvent(ActionEvent event) throws SQLException, IOException 
     {
-
-        MouseEvent fake = null;
-        selectCategoryMouseEvent(fake);
+        searchTxtField.clear();
+        searchTxtField.deselect();
+        
         double minRating = minRatingComboBox.getValue();
         
         ObservableList<Movie> minRatingList = FXCollections.observableArrayList();

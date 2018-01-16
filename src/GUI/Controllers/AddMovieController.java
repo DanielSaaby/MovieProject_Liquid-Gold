@@ -53,7 +53,10 @@ public class AddMovieController {
     {
         String title = movieTitletxtField.getText();
         double rating = Double.parseDouble(ratingTxtField.getText().replace(",", "."));
-        Boolean canMakeMovie = null;
+        Boolean canMakeMovie = true;
+        
+        if(!model.getAllMovie().isEmpty())
+        {
         
         for (Movie movie : model.getAllMovie()) 
         {
@@ -68,6 +71,7 @@ public class AddMovieController {
             canMakeMovie = false;           
             } 
         
+        }
         }
         
         if(canMakeMovie != false)

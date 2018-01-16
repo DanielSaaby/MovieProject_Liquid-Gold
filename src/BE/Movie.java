@@ -5,6 +5,8 @@
  */
 package BE;
 
+import java.util.Date;
+
 /**
  *
  * @author Daniels PC
@@ -16,9 +18,9 @@ public class Movie
     private double rating;
     private int ratingP;
     private String filelink;
-    private int lastview;
+    private Date lastview;
 
-    public Movie(int id, String name, double rating, int ratingP, String filelink, int lastview)
+    public Movie(int id, String name, double rating, int ratingP, String filelink, Date lastview)
     {
         this.id = id;
         this.name = name;
@@ -72,12 +74,12 @@ public class Movie
         this.filelink = filelink;
     }
 
-    public int getLastview()
+    public Date getLastview()
     {
         return lastview;
     }
 
-    public void setLastview(int lastview)
+    public void setLastview(Date lastview)
     {
         this.lastview = lastview;
     }

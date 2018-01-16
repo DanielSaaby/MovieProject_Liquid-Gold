@@ -13,7 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +49,7 @@ public class MovieDAO
             statement.setInt(2, 0);
             statement.setDouble(3, rating);
             statement.setString(4, filelink);
-            statement.setInt(5, 0);
+            statement.setDate(5, null);
             
             
             if(statement.executeUpdate() == 1)
@@ -53,7 +57,7 @@ public class MovieDAO
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
-                Movie m = new Movie(id, name, rating, 0, filelink, 0);
+                Movie m = new Movie(id, name, rating, 0, filelink, null);
                 return m;
             }
             throw new RuntimeException("Can't create movie");
@@ -89,7 +93,7 @@ public class MovieDAO
         int ratingP = rs.getInt("ratingPersonal");
         double rating = rs.getDouble("ratingIMDB");
         String filelink = rs.getString("filelink");
-        int lastview = rs.getInt("lastview");
+        Date lastview = rs.getDate("lastview");
         
         Movie movie = new Movie(id, name, rating , ratingP, filelink, lastview);
         return movie;
@@ -133,7 +137,7 @@ public class MovieDAO
             
                 ResultSet rs = statement.executeQuery();
                 rs.next();
-
+                
                 Movie m = getMovieFromResultSetRow(rs);
                 return m;
             
@@ -221,6 +225,28 @@ public class MovieDAO
             statement.setInt(1, selectedMovie.getId());
             
             statement.executeUpdate();            
+        }
+    }
+
+    public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
+    {
+        Date date = new Date();
+        
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        
+        
+        
+               
+        try (Connection con = dbconnector.getConnection())
+        {
+            String sql = "UPDATE Movie SET lastview = (?) WHERE id = (?);";
+            
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setDate(1, sqlDate);
+            statement.setInt(2, selectedMovie.getId());
+            
+            statement.executeUpdate();
         }
     }
     

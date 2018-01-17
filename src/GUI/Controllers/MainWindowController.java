@@ -210,8 +210,6 @@ public class MainWindowController implements Initializable
             movieInfoAp.setVisible(false);
 
         }
-
-
     }
 
     @FXML
@@ -222,7 +220,6 @@ public class MainWindowController implements Initializable
      
             model.clearObsList();
             
-//            catMovieTableView.getSelectionModel().getSelectedItems();
             for (Category selectedCategory : catMovieTableView.getSelectionModel().getSelectedItems()) 
             {
                 model.getAllMovieCategory(selectedCategory);

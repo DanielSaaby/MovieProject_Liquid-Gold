@@ -224,7 +224,7 @@ public class MainWindowController implements Initializable
             {
                 model.getAllMovieCategory(selectedCategory);
             }
-            model.removeDublicates();
+            //model.removeDublicates();
             movieSelectionAp.setVisible(true);  
         }
     }

@@ -71,6 +71,7 @@ public class MovieManager
     public List<Movie> removeDublicates(ObservableList<Movie> obsListMovieCategory) 
     {
         List<Movie> unique = obsListMovieCategory.stream().collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingInt(Movie::getId))), ArrayList::new));
+        System.out.println(unique.get(0).getName() + "\n");
         return unique;
     }
 

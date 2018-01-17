@@ -122,7 +122,7 @@ public class MainWindowController implements Initializable
         personalRatingComboBox.getItems().removeAll(personalRatingComboBox.getItems());
         personalRatingComboBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         
-        for (Movie movie : model.getAllMovie()) 
+        for(Movie movie : model.getAllMovie()) 
         {
             if(movie.getLastview() != null)
             {
@@ -193,7 +193,7 @@ public class MainWindowController implements Initializable
                 Category selectedCategory = catMovieTableView.getSelectionModel().getSelectedItem();
                 Movie selectedMovie = movieTableView.getSelectionModel().getSelectedItem();
                 model.removeMovie(selectedMovie, selectedCategory);
-                
+                movieInfoAp.setVisible(false);
                 
         
             }  
@@ -207,6 +207,7 @@ public class MainWindowController implements Initializable
         {
             Movie selectedMovie  = movieTableView.getSelectionModel().getSelectedItem();
             model.deleteMovie(selectedMovie);
+            movieInfoAp.setVisible(false);
 
         }
 
@@ -218,17 +219,16 @@ public class MainWindowController implements Initializable
     {
         if(!catMovieTableView.getSelectionModel().isEmpty())
         {
-            movieTableView.getItems().clear();
+     
+            model.clearObsList();
             
+//            catMovieTableView.getSelectionModel().getSelectedItems();
             for (Category selectedCategory : catMovieTableView.getSelectionModel().getSelectedItems()) 
             {
-                model.getAllMovieCategory(selectedCategory);              
+                model.getAllMovieCategory(selectedCategory);
             }
             model.removeDublicates();
-            movieSelectionAp.setVisible(true);
-            
-            
-            
+            movieSelectionAp.setVisible(true);  
         }
     }
 
@@ -237,7 +237,7 @@ public class MainWindowController implements Initializable
     {
         if(!movieTableView.getSelectionModel().isEmpty())
         {
-            Movie selectedMovie = movieTableView.getSelectionModel().getSelectedItem();
+            Movie selectedMovie = model.getMovieById(movieTableView.getSelectionModel().getSelectedItem().getId());
             
             movieTitleLbl.setText(selectedMovie.getName());          
             movieRatingLbl.setText(Double.toString(selectedMovie.getRating()) + " /10");

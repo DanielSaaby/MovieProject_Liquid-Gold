@@ -51,47 +51,59 @@ public class AddMovieController {
     @FXML
     private void saveMovieBtn(ActionEvent event) throws SQLException, IOException 
     {
-        String title = movieTitletxtField.getText();
-        double rating = Double.parseDouble(ratingTxtField.getText().replace(",", "."));
-        Boolean canMakeMovie = true;
-        
-        if(!model.getAllMovie().isEmpty())
+        if(!movieTitletxtField.getText().isEmpty() && !ratingTxtField.getText().isEmpty() && !filePathTxt.getText().isEmpty())
         {
+            String title = movieTitletxtField.getText();
+            double rating = Double.parseDouble(ratingTxtField.getText().replace(",", "."));
+            Boolean canMakeMovie = true;
         
-        for (Movie movie : model.getAllMovie()) 
-        {
-            if(movie.getName().equalsIgnoreCase(title))
+            if(!model.getAllMovie().isEmpty())
+            {   
+        
+                for (Movie movie : model.getAllMovie()) 
+                {
+                    if(movie.getName().equalsIgnoreCase(title))
+                    {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplication error");
+                        alert.setContentText("A movie with that title already exists");
+
+                        alert.showAndWait(); 
+                        canMakeMovie = false;           
+                    } 
+        
+                }   
+            }
+        
+            if(canMakeMovie != false)
             {
+                model.createMovie(title, rating, fileLink);
+            
+                Stage stage = (Stage) saveMovie.getScene().getWindow();
+                stage.close();
+        
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/CategoryAssignment.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                CategoryAssignmentController cac = fxmlLoader.getController();
+                cac.setModel(model);     
+                cac.prep(title);
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(root1)); 
+                newStage.show(); 
+            }
+        }
+        else
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Duplication error");
-            alert.setContentText("A movie with that title already exists");
-
+            alert.setHeaderText("Missing information");
+            alert.setContentText("Please fill out all fields");
             alert.showAndWait(); 
-            canMakeMovie = false;           
-            } 
-        
         }
-        }
+}
         
-        if(canMakeMovie != false)
-        {
-            model.createMovie(title, rating, fileLink);
-            
-            Stage stage = (Stage) saveMovie.getScene().getWindow();
-            stage.close();
-        
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/CategoryAssignment.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            CategoryAssignmentController cac = fxmlLoader.getController();
-            cac.setModel(model);     
-            cac.prep(title);
-            Stage newStage = new Stage();
-            newStage.setScene(new Scene(root1)); 
-            newStage.show(); 
-        }
-        
-    }
+    
 
     @FXML
     private void cancelAddMovieBtn(ActionEvent event) 

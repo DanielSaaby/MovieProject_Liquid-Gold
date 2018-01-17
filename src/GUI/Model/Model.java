@@ -106,8 +106,7 @@ public class Model
     public void removeMovie(Movie selectedMovie, Category selectedCategory) throws SQLException, IOException
     {
         moviemanager.removeMovie(selectedMovie);
-        obsListMovieCategory.clear();
-        obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));
+        obsListMovieCategory.remove(selectedMovie);
         
     }
 
@@ -138,7 +137,8 @@ public class Model
     public void deleteMovie(Movie selectedMovie) throws SQLException 
     {
         moviemanager.deleteMovie(selectedMovie);
-    }
+        obsListMovieCategory.remove(selectedMovie);
+     }
 
     public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
     {
@@ -153,6 +153,11 @@ public class Model
     public Boolean checkOutdatedMovies(Movie movie) 
     {
          return moviemanager.checkOutdatedMovies(movie);
+    }
+
+    public void clearObsList() 
+    {
+        obsListMovieCategory.clear();
     }
     
     

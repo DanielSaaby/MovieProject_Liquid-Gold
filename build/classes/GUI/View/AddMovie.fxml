@@ -25,7 +25,7 @@
             <Button fx:id="saveMovie" layoutX="135.0" layoutY="261.0" mnemonicParsing="false" onAction="#saveMovieBtn" text="Save" />
             <Button layoutX="201.0" layoutY="261.0" mnemonicParsing="false" onAction="#cancelAddMovieBtn" text="Cancel" />
             <Button layoutX="26.0" layoutY="62.0" mnemonicParsing="false" onAction="#chooseFileBtn" text="Choose file" />
-            <TextField fx:id="filePathTxt" layoutX="27.0" layoutY="95.0" />
+            <TextField fx:id="filePathTxt" editable="false" layoutX="27.0" layoutY="95.0" />
             <Label alignment="CENTER" layoutX="115.0" layoutY="14.0" prefHeight="26.0" prefWidth="150.0" text="Add Movie">
                <font>
                   <Font name="Century" size="24.0" />

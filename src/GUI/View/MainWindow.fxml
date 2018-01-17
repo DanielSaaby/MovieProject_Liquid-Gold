@@ -33,7 +33,7 @@
             </AnchorPane>
             <AnchorPane fx:id="movieSelectionAp" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="556.0">
                <children>
-                  <Button layoutX="13.0" layoutY="475.0" mnemonicParsing="false" onAction="#removeMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Remove Movie" />
+                  <Button layoutX="13.0" layoutY="475.0" mnemonicParsing="false" onAction="#removeMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Remove Movie from category" />
                   <Button layoutX="11.0" layoutY="510.0" mnemonicParsing="false" onAction="#deleteMovieEvent" prefHeight="20.0" prefWidth="223.0" text="Delete Movie" />
                   <TableView fx:id="movieTableView" layoutX="-3.0" layoutY="62.0" onMouseClicked="#selectMovieMouseEvent" prefHeight="402.0" prefWidth="252.0">
                 

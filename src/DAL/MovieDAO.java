@@ -223,6 +223,7 @@ public class MovieDAO
             PreparedStatement statement = con.prepareStatement(sql);
             
             statement.setInt(1, selectedMovie.getId());
+            statement.setInt(2, selectedMovie.getId());
             
             statement.executeUpdate();            
         }

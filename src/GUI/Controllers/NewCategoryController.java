@@ -5,6 +5,8 @@
  */
 package GUI.Controllers;
 
+import BE.Category;
+import BE.Movie;
 import GUI.Model.Model;
 import java.net.URL;
 import java.sql.SQLException;
@@ -46,26 +48,47 @@ public class NewCategoryController implements Initializable
 
 
     @FXML
-    private void saveNewCategoryEvent(ActionEvent event)
+    private void saveNewCategoryEvent(ActionEvent event) throws SQLException
     {
-        String categoryName = addNewCategoryTextField.getText();
 
-        try
-        {
-            model.createCategory(categoryName);
-        } 
-        catch(SQLException ex) 
+        Boolean canMakeCategory = true;
+        
+        if(!addNewCategoryTextField.getText().isEmpty())
+        {   
+            String catName = addNewCategoryTextField.getText();
+            
+            for (Category category : model.getAllCategory()) 
+            {
+                if(category.getName().equalsIgnoreCase(catName))
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Duplication error");
+                    alert.setContentText("A category with that name already exists");
+
+                    alert.showAndWait(); 
+                    canMakeCategory = false;           
+                } 
+            }
+            if(canMakeCategory != false)
+            {
+                String categoryName = addNewCategoryTextField.getText();
+       
+                model.createCategory(categoryName);
+    
+                Stage stage = (Stage) saveNewCategory.getScene().getWindow();
+                stage.close();               
+            }
+        }       
+        else 
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Dialog");
-            alert.setHeaderText("Look, an Error Dialog");
-            alert.setContentText("Ooops, there was an error!");
+            alert.setTitle("Error");
+            alert.setHeaderText("Missing Category Name");
+            alert.setContentText("Please enter a category name");
 
             alert.showAndWait();
         }
-        
-        Stage stage = (Stage) saveNewCategory.getScene().getWindow();
-        stage.close();
     }
 
     @FXML

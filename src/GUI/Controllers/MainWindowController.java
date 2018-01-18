@@ -133,43 +133,8 @@ public class MainWindowController implements Initializable {
         personalRatingComboBox.getItems().removeAll(personalRatingComboBox.getItems());
         personalRatingComboBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        for (Movie movie : model.getAllMovie()) {
-            if (movie.getLastview() != null) {
-                if (movie.getRatingP() < 6) {
-
-                    if (model.checkOutdatedMovies(movie)) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Outdated movie");
-                        alert.setContentText("the movie " + movie.getName() + " has not been viewed in 2 years");
-                        alert.showAndWait();
-                    }
-                }
-            }
-        }
-
-        catMovieTableView.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<Category>() {
-            @Override
-            public void onChanged(ListChangeListener.Change<? extends Category> c) {
-                try {
-                    if (!c.getList().isEmpty()) {
-
-                        model.clearObsList();
-
-                        for (Category selectedCategory : c.getList()) {
-                            if (selectedCategory != null) {
-                                model.getAllMovieCategory(selectedCategory);
-                            }
-                        }
-                        model.removeDublicates();
-                        movieSelectionAp.setVisible(true);
-                    }
-                } catch (ESException ex) {
-                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        });
+        checkOutdatedMovies();
+        categorySelektion();
     }
 
     @FXML
@@ -396,5 +361,50 @@ public class MainWindowController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait(); 
     }
+    
+    private void checkOutdatedMovies()
+    {
+        for (Movie movie : model.getAllMovie()) {
+            if (movie.getLastview() != null) {
+                if (movie.getRatingP() < 6) {
+
+                    if (model.checkOutdatedMovies(movie)) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Outdated movie");
+                        alert.setContentText("the movie " + movie.getName() + " has not been viewed in 2 years");
+                        alert.showAndWait();
+                    }
+                }
+            }
+        }        
+    }
+    
+    private void categorySelektion()
+    {
+        catMovieTableView.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<Category>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends Category> c) {
+                try {
+                    if (!c.getList().isEmpty()) {
+
+                        model.clearObsList();
+
+                        for (Category selectedCategory : c.getList()) {
+                            if (selectedCategory != null) {
+                                model.getAllMovieCategory(selectedCategory);
+                            }
+                        }
+                        model.removeDublicates();
+                        movieSelectionAp.setVisible(true);
+                    }
+                } catch (ESException ex) {
+                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
+    }
+            
 
 }

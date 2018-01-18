@@ -6,6 +6,7 @@
 package DAL;
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
@@ -27,13 +28,30 @@ public class CategoryDAO
 {
     private DatabaseConnector dbconnector;
 
-    
-    public CategoryDAO() throws IOException
+    /**
+     *
+     * @throws IOException
+     */
+    public CategoryDAO() throws ESException 
     {
-        dbconnector = new DatabaseConnector();
+        try 
+        {
+            dbconnector = new DatabaseConnector();
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not get connection to database", ex);
+        }
     }
     
-    public Category createCategory(String name) throws SQLException
+    /**
+     * Creates a category in the database with the given string parameter
+     * @param name
+     * @return
+     * @throws SQLException
+     */
+    public Category createCategory(String name) throws ESException 
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -53,10 +71,22 @@ public class CategoryDAO
             }
             throw new RuntimeException("Can't create category");
 
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not create category due to connection error", ex);
+            
         }
     }
-    
-    public List<Category> getAllCategory() throws SQLException
+   
+
+    /**
+     * returns a list of all the categories from the database
+     * @return
+     * @throws BE.ESException
+     * 
+     */
+    public List<Category> getAllCategory() throws ESException 
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -73,23 +103,40 @@ public class CategoryDAO
                 allCategory.add(category);
             }
             return allCategory;
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not retrieve the categories due to connection error", ex);
         }
     }
     
 
-    private Category getCategoryFromResultSetRow(ResultSet rs) throws SQLException
+    private Category getCategoryFromResultSetRow(ResultSet rs) throws ESException 
     {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        
-        Category category = new Category(id, name);
-        return category;
+        try 
+        {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            
+            Category category = new Category(id, name);
+            return category;
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not retrieve category from resulset in database du to connection error", ex);
+            
+            
+        }
     }
 
-
-
-
-    public List<Movie> getAllMovieCategory(Category selectedCategory) throws SQLException, IOException 
+    /**
+     * returns a list of movies that is in the given selected category
+     * @param selectedCategory
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
+    public List<Movie> getAllMovieCategory(Category selectedCategory) throws ESException 
     {
      
         
@@ -115,12 +162,19 @@ public class CategoryDAO
                 
             }
             return allMovies;  
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not retrieve movies due to connection error", ex);
         }
 
 
     }
     
-        public void deleteCategory(Category selectedCategory)
+    /**
+     * deletes the category object from the database
+     * @param selectedCategory
+     */
+    public void deleteCategory(Category selectedCategory) throws ESException
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -136,11 +190,19 @@ public class CategoryDAO
         catch (SQLException ex)
         {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not delete category due to connection error", ex);
+            
         }
     
 }
 
-    public List<String> getAllCatForMovie(Movie selectedMovie) throws SQLException 
+    /**
+     * returns a list of all the category names the movie object consists of
+     * @param selectedMovie
+     * @return
+     * @throws SQLException
+     */
+    public List<String> getAllCatForMovie(Movie selectedMovie) throws ESException
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -162,10 +224,19 @@ public class CategoryDAO
                 allCategory.add(category.getName()+"\n");
             }
             return allCategory;
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not retrive the categories for this movie due to connection error", ex);
         }        
     }
     
-    public Category getCategoryById(int id) throws SQLException
+    /**
+     * returns a category specified by the category id
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public Category getCategoryById(int id) throws ESException 
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -182,6 +253,9 @@ public class CategoryDAO
 
                 Category m = getCategoryFromResultSetRow(rs);
                 return m;    
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not retrieve the category from the database due to connection error", ex);
         }
     }
 }

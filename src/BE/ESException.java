@@ -11,16 +11,30 @@ package BE;
  */
 public class ESException extends Exception
 {
+
+    /**
+     *
+     * @param message
+     */
     public ESException(String message)
     {
         super(message);
     }
 
+    /**
+     *
+     * @param message
+     * @param cause
+     */
     public ESException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
+    /**
+     *
+     * @param cause
+     */
     public ESException(Throwable cause)
     {
         super(cause);

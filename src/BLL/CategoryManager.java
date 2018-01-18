@@ -7,6 +7,7 @@ package BLL;
 
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import DAL.CategoryDAO;
 import java.io.IOException;
@@ -22,34 +23,64 @@ public class CategoryManager
 {
     private CategoryDAO categorydao;
 
-    public CategoryManager() throws IOException
+    /**
+     *
+     * @throws IOException
+     */
+    public CategoryManager() throws ESException
     {
         categorydao = new CategoryDAO();
         
     }
     
-    public void createCategory(String name) throws SQLException
+    /**
+     * creates a category with the given paramiter
+     * @param name
+     * @throws SQLException
+     */
+    public void createCategory(String name) throws ESException
     {
         categorydao.createCategory(name);
     }
     
-    
-    public List<Movie> getAllMovieCategory(Category selectedCategory) throws SQLException, IOException
+    /**
+     * returns a list of all the movies with relations to the category object
+     * @param selectedCategory
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
+    public List<Movie> getAllMovieCategory(Category selectedCategory) throws ESException
     {
         return categorydao.getAllMovieCategory(selectedCategory);
     }
 
-    public List<Category> getAllCategory() throws SQLException 
+    /**
+     * returns a list of all categories
+     * @return
+     * @throws SQLException
+     */
+    public List<Category> getAllCategory() throws ESException 
     {
         return categorydao.getAllCategory();
     }
 
-    public void deleteCategory(Category selectedCategory)
+    /**
+     * deletes the specified category
+     * @param selectedCategory
+     */
+    public void deleteCategory(Category selectedCategory) throws ESException
     {
         categorydao.deleteCategory(selectedCategory);
     }
 
-    public List<String> getAllCatForMovie(Movie selectedMovie) throws SQLException 
+    /**
+     *  returns a list of all the category names tied to the movie object
+     * @param selectedMovie
+     * @return
+     * @throws SQLException
+     */
+    public List<String> getAllCatForMovie(Movie selectedMovie) throws ESException 
     {
         return categorydao.getAllCatForMovie(selectedMovie);
     }

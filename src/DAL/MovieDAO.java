@@ -6,6 +6,7 @@
 package DAL;
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import java.io.IOException;
 import java.sql.Connection;
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,14 +33,32 @@ public class MovieDAO
     private Movie movie;
     private DatabaseConnector dbconnector;
 
-    
-    public MovieDAO() throws IOException
+    /**
+     *
+     * @throws IOException
+     */
+    public MovieDAO() throws ESException 
     {
-        dbconnector = new DatabaseConnector();
+        try {
+            dbconnector = new DatabaseConnector();
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not connect to database", ex);
+        }
         
     }
     
-    public Movie createMovie(String name, double rating, String filelink) throws SQLException
+    /**
+     * Creates a movie in the datebase with the given paramiters
+     * @param name
+     * @param rating
+     * @param filelink
+     * @return
+     * @throws SQLException
+     */
+    public Movie createMovie(String name, double rating, String filelink) throws ESException 
     {
         
     
@@ -61,12 +83,21 @@ public class MovieDAO
                 return m;
             }
             throw new RuntimeException("Can't create movie");
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not create movie due to connection error", ex);
         }
         
 
     }
     
-    public List<Movie> getAllMovies() throws SQLException
+    /**
+     *  returns a list of all the movies in the database
+     * @return
+     * @throws SQLException
+     */
+    public List<Movie> getAllMovies() throws ESException 
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -83,23 +114,36 @@ public class MovieDAO
                 allMovies.add(movie);
             }
             return allMovies;
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not retrieve all movies due to connection error", ex);
         }
     }
 
-    private Movie getMovieFromResultSetRow(ResultSet rs) throws SQLException
+    private Movie getMovieFromResultSetRow(ResultSet rs) throws ESException 
     {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        int ratingP = rs.getInt("ratingPersonal");
-        double rating = rs.getDouble("ratingIMDB");
-        String filelink = rs.getString("filelink");
-        Date lastview = rs.getDate("lastview");
-        
-        Movie movie = new Movie(id, name, rating , ratingP, filelink, lastview);
-        return movie;
+        try {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            int ratingP = rs.getInt("ratingPersonal");
+            double rating = rs.getDouble("ratingIMDB");
+            String filelink = rs.getString("filelink");
+            Date lastview = rs.getDate("lastview");
+            
+            Movie movie = new Movie(id, name, rating , ratingP, filelink, lastview);
+            return movie;
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not retrieve movie from resultset due to connection error", ex);
+        }
     }
 
-    public Movie getLatestMovie() throws SQLException 
+    /**
+     * returns the latest created movie object in the database
+     * @return
+     * @throws SQLException
+     */
+    public Movie getLatestMovie() throws ESException 
     {        
         try (Connection con = dbconnector.getConnection())
         {
@@ -116,14 +160,22 @@ public class MovieDAO
             }
             
             
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not retrieve the latest movie due to connection error", ex);
         }
         return movie;
 
         
     }
     
-    
-    public Movie getMovieById(int id) throws SQLException
+    /**
+     * returns a movie from the database specified by the movie id
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public Movie getMovieById(int id) throws ESException
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -142,11 +194,21 @@ public class MovieDAO
                 return m;
             
 
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not retrieve movie due to connection error", ex);
         }
     }
     
-
-    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
+    /**
+     * creates a relation between the movie object and category object
+     * @param category
+     * @param movie
+     * @param isNewMovie
+     * @throws SQLException
+     */
+    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws ESException
     {
         Boolean NewMovie = isNewMovie;
         
@@ -175,31 +237,51 @@ public class MovieDAO
             statement.executeUpdate();
             
         
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not assign the given category to the movie due to connection error", ex);
         }        
         
         
     }
 
-    public void removeMovie(Movie selectedMovie) throws SQLException
+    /**
+     * removes the specified movie object from the database
+     * @param selectedMovie
+     * @throws SQLException
+     */
+    public void removeMovie(Movie selectedMovie, Category selectedCategory) throws ESException
     {
         try (Connection con = dbconnector.getConnection()) 
         {
-            String sql = "DELETE FROM CatMovie WHERE movieid = (?)";
+            String sql = "DELETE FROM CatMovie WHERE movieid = (?) AND categoryid = (?)";
             
             PreparedStatement statement = con.prepareStatement(sql);
             
+            
             statement.setInt(1, selectedMovie.getId());
+            statement.setInt(2, selectedCategory.getId());
             
             statement.executeUpdate();
         
         
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not remove from database due to connection error", ex);
         }
          
             
         
     }
 
-    public void updatePersonalRating(int newRating, Movie movie) throws SQLException 
+    /**
+     * updates the personal rating of the movie object in the database
+     * @param newRating
+     * @param movie
+     * @throws SQLException
+     */
+    public void updatePersonalRating(int newRating, Movie movie) throws ESException 
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -211,10 +293,18 @@ public class MovieDAO
             statement.setInt(2, movie.getId());
             
             statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not update personal rating due to connection error", ex);
         }
     }
 
-    public void deleteMovie(Movie selectedMovie) throws SQLException 
+    /**
+     * deletes the movie object and all of its relations from the database
+     * @param selectedMovie
+     * @throws SQLException
+     */
+    public void deleteMovie(Movie selectedMovie) throws ESException
     {
         try (Connection con = dbconnector.getConnection())
         {
@@ -226,10 +316,19 @@ public class MovieDAO
             statement.setInt(2, selectedMovie.getId());
             
             statement.executeUpdate();            
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("Could not delete movie due to connection error", ex);
         }
     }
 
-    public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
+    /**
+     * set the lastviewed date for the movie object
+     * @param selectedMovie
+     * @throws SQLException
+     * @throws ParseException
+     */
+    public void setLastView(Movie selectedMovie) throws ESException 
     {
         Date date = new Date();
         
@@ -248,6 +347,9 @@ public class MovieDAO
             statement.setInt(2, selectedMovie.getId());
             
             statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ESException("could not update the date for the movies lastview due to connection", ex);
         }
     }
     

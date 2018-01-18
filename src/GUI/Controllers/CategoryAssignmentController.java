@@ -6,12 +6,15 @@
 package GUI.Controllers;
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import GUI.Model.Model;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,6 +59,8 @@ public class CategoryAssignmentController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -94,16 +99,21 @@ public class CategoryAssignmentController implements Initializable {
     }
 
     @FXML
-    private void saveCategoriesBtn(ActionEvent event) throws SQLException 
+    private void saveCategoriesBtn(ActionEvent event) 
     {
         if (!movieCategoryObsList.isEmpty()) 
         {
             for (Category category : movieCategoryObsList) {
-                Boolean isNewMovie = true;
-                model.assignMovieCategory(category, movie, isNewMovie);
-
-                Stage stage = (Stage) saveCategoriesbtn.getScene().getWindow();
-                stage.close();
+                try {
+                    Boolean isNewMovie = true;
+                    model.assignMovieCategory(category, movie, isNewMovie);
+                    
+                    Stage stage = (Stage) saveCategoriesbtn.getScene().getWindow();
+                    stage.close();
+                } catch (ESException ex) 
+                {
+                    MainWindowController.showAlertBox(ex.getMessage());
+                }
             }
         } 
         else 
@@ -117,16 +127,22 @@ public class CategoryAssignmentController implements Initializable {
         }
     }
 
-    void prep(String title) throws SQLException {
+    void prep(String title) 
+    {
 
-        categoryObsList.addAll(model.getAllCategory());
-
-        categoryTableView.setItems(categoryObsList);
-        categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        headerLbl.setText("Select Categories for " + title);
-        movieCategoryTableColumn.setText(title);
-
-        movie = model.getLatestMovie();
+        try {
+            categoryObsList.addAll(model.getAllCategory());
+            
+            categoryTableView.setItems(categoryObsList);
+            categoryTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
+            headerLbl.setText("Select Categories for " + title);
+            movieCategoryTableColumn.setText(title);
+            
+            movie = model.getLatestMovie();
+        } catch (ESException ex) 
+        {
+            MainWindowController.showAlertBox(ex.getMessage());
+        }
     }
 
 }

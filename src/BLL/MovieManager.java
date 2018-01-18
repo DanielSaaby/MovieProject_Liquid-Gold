@@ -6,6 +6,7 @@
 package BLL;
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import DAL.MovieDAO;
 import java.io.IOException;
@@ -35,77 +36,144 @@ public class MovieManager
 
     private MovieDAO moviedao;
 
-    public MovieManager() throws IOException
+    /**
+     *
+     * @throws IOException
+     */
+    public MovieManager() throws ESException
     {
         moviedao = new MovieDAO();
         
     }
     
-    public void createMovie(String name, double rating, String filelink) throws SQLException
+    /**
+     *
+     * @param name
+     * @param rating
+     * @param filelink
+     * @throws SQLException
+     */
+    public void createMovie(String name, double rating, String filelink) throws ESException
     {
         moviedao.createMovie(name, rating, filelink);
     }
     
-    
-    public List<Movie> getAllMovies() throws SQLException
+    /**
+     * returns a list of all the movies
+     * @return
+     * @throws SQLException
+     */
+    public List<Movie> getAllMovies() throws ESException 
     {
         return moviedao.getAllMovies();
     }
-    public Movie getLatestMovie() throws SQLException 
+
+    /**
+     * returns the latest created movie
+     * @return
+     * @throws SQLException
+     */
+    public Movie getLatestMovie() throws ESException
     {
         Movie movie = moviedao.getLatestMovie();
         return movie;
     }    
 
-    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
+    /**
+     * creates a relation between the specified category object and movie object
+     * @param category
+     * @param movie
+     * @param isNewMovie
+     * @throws SQLException
+     */
+    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws ESException 
     {
         moviedao.assignMovieCategory(category, movie, isNewMovie);
        
     }
 
-    public void removeMovie(Movie selectedMovie) throws SQLException
+    /**
+     * removes the relation between the movie and category
+     * @param selectedMovie
+     * @throws SQLException
+     */
+    public void removeMovie(Movie selectedMovie, Category selectedCategory) throws ESException
     {
-        moviedao.removeMovie(selectedMovie);
+        moviedao.removeMovie(selectedMovie, selectedCategory);
     }
 
+    /**
+     * returns a list of the movies without any duplicates 
+     * @param obsListMovieCategory
+     * @return
+     */
     public List<Movie> removeDublicates(ObservableList<Movie> obsListMovieCategory) 
     {
         List<Movie> unique = obsListMovieCategory.stream().collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingInt(Movie::getId))), ArrayList::new));
-        System.out.println(unique.get(0).getName() + "\n");
         return unique;
     }
 
-    public void updatePersonalRating(int newRating, Movie movie) throws SQLException 
+    /**
+     * updates the personal rating of the movie 
+     * @param newRating
+     * @param movie
+     * @throws SQLException
+     */
+    public void updatePersonalRating(int newRating, Movie movie) throws ESException
     {
         moviedao.updatePersonalRating(newRating, movie);
     }
 
-    public void deleteMovie(Movie selectedMovie) throws SQLException 
+    /**
+     * deletes the movie and all its relations 
+     * @param selectedMovie
+     * @throws SQLException
+     */
+    public void deleteMovie(Movie selectedMovie) throws ESException 
     {
         moviedao.deleteMovie(selectedMovie);
     }
 
-    public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
+    /**
+     * set the last view of the movie object
+     * @param selectedMovie
+     * @throws SQLException
+     * @throws ParseException
+     */
+    public void setLastView(Movie selectedMovie) throws ESException 
     {
         moviedao.setLastView(selectedMovie);
     }
 
-    public Movie getMovieById(int id) throws SQLException 
+    /**
+     * returns a movie specified by id
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public Movie getMovieById(int id) throws ESException
     {
         return moviedao.getMovieById(id);
     }
 
+    /**
+     * returns a true if the the movie hasnt been viewed in two years 
+     * @param movie
+     * @return
+     */
     public Boolean checkOutdatedMovies(Movie movie) 
     {
-        long futureMili = Long.parseLong("86400000");
+        long futureMili = Long.parseLong("63113904000");
         
         Date futureDate = new Date(movie.getLastview().getTime() + futureMili);
-        Date movieDate = new Date(movie.getLastview().getTime());
+        Date movieDate = new Date();
+        Date currentDate = new Date(movieDate.getTime());
+        
         
         System.out.println(futureDate);
-        System.out.println(movieDate);
+        System.out.println(currentDate);
                 
-        return movieDate.after(futureDate);
+        return currentDate.after(futureDate);
         
     }
 

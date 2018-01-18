@@ -5,6 +5,7 @@
  */
 package GUI.Controllers;
 
+import BE.ESException;
 import BE.Movie;
 import GUI.Model.Model;
 import java.io.File;
@@ -13,6 +14,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,13 +46,17 @@ public class AddMovieController {
     @FXML
     private Button saveMovie;
     
+    /**
+     *
+     * @param model
+     */
     public void setModel(Model model) 
     {
         this.model = model;
     }
 
     @FXML
-    private void saveMovieBtn(ActionEvent event) throws SQLException, IOException 
+    private void saveMovieBtn(ActionEvent event)
     {
         if(!movieTitletxtField.getText().isEmpty() && !ratingTxtField.getText().isEmpty() && !filePathTxt.getText().isEmpty())
         {
@@ -78,19 +85,31 @@ public class AddMovieController {
         
             if(canMakeMovie != false)
             {
-                model.createMovie(title, rating, fileLink);
-            
-                Stage stage = (Stage) saveMovie.getScene().getWindow();
-                stage.close();
-        
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/CategoryAssignment.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                CategoryAssignmentController cac = fxmlLoader.getController();
-                cac.setModel(model);     
-                cac.prep(title);
-                Stage newStage = new Stage();
-                newStage.setScene(new Scene(root1)); 
-                newStage.show(); 
+                try 
+                {
+                    try
+                    { 
+                        model.createMovie(title, rating, fileLink);
+                    } catch (ESException ex)
+                    {
+                        MainWindowController.showAlertBox(ex.getMessage());
+                    }
+                    
+                    Stage stage = (Stage) saveMovie.getScene().getWindow();
+                    stage.close();
+                    
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/CategoryAssignment.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    CategoryAssignmentController cac = fxmlLoader.getController();
+                    cac.setModel(model);
+                    cac.prep(title);
+                    Stage newStage = new Stage();
+                    newStage.setScene(new Scene(root1));
+                    newStage.show();
+                } catch (IOException ex) 
+                {
+                    MainWindowController.showAlertBox(ex.getMessage());
+                }
             }
         }
         else
@@ -113,19 +132,24 @@ public class AddMovieController {
     }
 
     @FXML
-    private void chooseFileBtn(ActionEvent event) throws MalformedURLException 
+    private void chooseFileBtn(ActionEvent event) 
     {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video Files", "*.mp4"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.mpeg4"));
         File selectedFile = fc.showOpenDialog(null);
         if (selectedFile !=null)
         {   
-            filePathTxt.setText(selectedFile.getAbsolutePath());
-            System.out.println(selectedFile.getAbsolutePath());
-            String fileName = selectedFile.getName().replace(".mp4", "");
-            URL url = Paths.get(selectedFile.getAbsolutePath()).toUri().toURL();
-            movieTitletxtField.setText(fileName);
-            fileLink = selectedFile.toURI().toString();
+            try {
+                filePathTxt.setText(selectedFile.getAbsolutePath());
+                System.out.println(selectedFile.getAbsolutePath());
+                String fileName = selectedFile.getName().replace(".mp4", "");
+                URL url = Paths.get(selectedFile.getAbsolutePath()).toUri().toURL();
+                movieTitletxtField.setText(fileName);
+                fileLink = selectedFile.toURI().toString();
+            } catch (MalformedURLException ex) 
+            {
+                MainWindowController.showAlertBox(ex.getMessage());
+            }
         }
         
     }

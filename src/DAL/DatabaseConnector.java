@@ -18,7 +18,10 @@ public class DatabaseConnector
 {
      private SQLServerDataSource dataSource;
 
-        
+    /**
+     * 
+     * @throws IOException
+     */
     public DatabaseConnector() throws IOException
     {
        
@@ -34,6 +37,7 @@ public class DatabaseConnector
         
     /**
      * This method gets the connection with the database
+     * @return 
      * @returns dataSource from DataBaseConnector
      * @throws SQLServerException 
      */    

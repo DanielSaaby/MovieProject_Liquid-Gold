@@ -6,16 +6,22 @@
 package GUI.Model;
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import BLL.CategoryManager;
 import BLL.MovieManager;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import static java.util.Comparator.comparingInt;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -32,8 +38,12 @@ public class Model
     MovieManager moviemanager;
     CategoryManager categorymanager;
     
-    
-    public Model() throws SQLException, IOException
+    /**
+     *
+     * @throws SQLException
+     * @throws IOException
+     */
+    public Model() throws ESException
     {
         this.moviemanager = new MovieManager();
         this.categorymanager = new CategoryManager();
@@ -46,22 +56,41 @@ public class Model
         obsListCategory.addAll(categorymanager.getAllCategory());
     }
     
+    /**
+     * returns an ObservableList with all movies
+     * @return
+     */
     public ObservableList<Movie> getAllMovie()
     {
         return obsListMovie;
     }
     
+    /**
+     * returns a list with all categories
+     * @return
+     */
     public ObservableList<Category> getAllCategory()
     {
         return obsListCategory;
     }
     
+    /**
+     * returns a list of all the movies specified by a category
+     * @return
+     */
     public ObservableList<Movie> getAllMovieCategory()
     {
         return obsListMovieCategory;
     }
     
-    public void createMovie(String name, double rating, String filelink) throws SQLException
+    /**
+     * creates a movie with the given parameters
+     * @param name
+     * @param rating
+     * @param filelink
+     * @throws SQLException
+     */
+    public void createMovie(String name, double rating, String filelink) throws ESException
     {
         moviemanager.createMovie(name, rating, filelink);
         obsListMovie.clear();
@@ -69,92 +98,169 @@ public class Model
         
     }
     
-    public void createCategory(String name) throws SQLException
+    /**
+     * creates a category with the give parameters
+     * @param name
+     * @throws SQLException
+     */
+    public void createCategory(String name) throws ESException
     {
         categorymanager.createCategory(name);
         obsListCategory.clear();
         obsListCategory.addAll(categorymanager.getAllCategory());
     }
 
-    public Movie getLatestMovie() throws SQLException 
+    /**
+     * returns the latest created movie
+     * @return
+     * @throws SQLException
+     */
+    public Movie getLatestMovie() throws ESException 
     {
         Movie movie = moviemanager.getLatestMovie();
         return movie;
     }
 
-    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws SQLException 
+    /**
+     * creates a relation between a movie and category object
+     * @param category
+     * @param movie
+     * @param isNewMovie
+     * @throws SQLException
+     */
+    public void assignMovieCategory(Category category, Movie movie, Boolean isNewMovie) throws ESException 
     {
         moviemanager.assignMovieCategory(category, movie, isNewMovie);
     }
 
-    public void getAllMovieCategory(Category selectedCategory) throws SQLException, IOException 
-    {
-        obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));
-        
-        
-            
-        
+    /**
+     * adds all categories to an ObservableList
+     * @param selectedCategory
+     * @throws SQLException
+     * @throws IOException
+     */
+    public void getAllMovieCategory(Category selectedCategory) throws ESException 
+    { 
+        if(!categorymanager.getAllMovieCategory(selectedCategory).isEmpty())
+        {
+            obsListMovieCategory.addAll(categorymanager.getAllMovieCategory(selectedCategory));
+        }
     }
     
-    public void deleteCategory(Category selectedCategory) throws SQLException
+    /**
+     * deletes a specified category and updates the ObservableList
+     * @param selectedCategory
+     * @throws SQLException
+     */
+    public void deleteCategory(Category selectedCategory) throws ESException
     {
         categorymanager.deleteCategory(selectedCategory);
         obsListCategory.clear();
         obsListCategory.addAll(categorymanager.getAllCategory());
     }
 
-    public void removeMovie(Movie selectedMovie, Category selectedCategory) throws SQLException, IOException
+    /**
+     *  removes the relation between the movie object and category object
+     * @param selectedMovie
+     * @param selectedCategory
+     * @throws SQLException
+     * @throws IOException
+     */
+    public void removeMovie(Movie selectedMovie, Category selectedCategory) throws ESException 
     {
-        moviemanager.removeMovie(selectedMovie);
+        moviemanager.removeMovie(selectedMovie, selectedCategory);
         obsListMovieCategory.remove(selectedMovie);
         
     }
 
+    /**
+     * removes all dublicates in list
+     */
     public void removeDublicates() 
     {
         obsListMovieCategory.setAll(moviemanager.removeDublicates(obsListMovieCategory));
     }
 
+    /**
+     * filters rating
+     * @param minRatingList
+     */
     public void filterRating(ObservableList<Movie> minRatingList) 
     {
         obsListMovieCategory.clear();
         obsListMovieCategory.addAll(minRatingList);
     }
 
-
-    public ObservableList<String> getAllCatForMovie(Movie selectedMovie) throws SQLException
+    /**
+     *
+     * @param selectedMovie
+     * @return
+     * @throws SQLException
+     */
+    public ObservableList<String> getAllCatForMovie(Movie selectedMovie) throws ESException
     {
         ObservableList<String> obsListAllCatForMovie = FXCollections.observableArrayList();
         obsListAllCatForMovie.addAll(categorymanager.getAllCatForMovie(selectedMovie));
         return obsListAllCatForMovie;
     }
 
-    public void updatePersonalRating(int newRating, Movie movie) throws SQLException 
+    /**
+     * updates personal rating for the movie object
+     * @param newRating
+     * @param movie
+     * @throws SQLException
+     */
+    public void updatePersonalRating(int newRating, Movie movie) throws ESException
     {
         moviemanager.updatePersonalRating(newRating, movie);
     }
 
-    public void deleteMovie(Movie selectedMovie) throws SQLException 
+    /**
+     * deletes the specified movie
+     * @param selectedMovie
+     * @throws SQLException
+     */
+    public void deleteMovie(Movie selectedMovie) throws ESException 
     {
         moviemanager.deleteMovie(selectedMovie);
         obsListMovieCategory.remove(selectedMovie);
      }
 
-    public void setLastView(Movie selectedMovie) throws SQLException, ParseException 
+    /**
+     * set last view for movie 
+     * @param selectedMovie
+     * @throws SQLException
+     * @throws ParseException
+     */
+    public void setLastView(Movie selectedMovie) throws ESException 
     {
         moviemanager.setLastView(selectedMovie);
     }
 
-    public Movie getMovieById(int id) throws SQLException 
+    /**
+     * returns movie by the given parameter
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public Movie getMovieById(int id) throws ESException 
     {
         return moviemanager.getMovieById(id);
     }
 
+    /**
+     * returns true if movie hasn't been viewed in over two years
+     * @param movie
+     * @return
+     */
     public Boolean checkOutdatedMovies(Movie movie) 
     {
          return moviemanager.checkOutdatedMovies(movie);
     }
 
+    /**
+     * clears the obsListMovieCategory ObservableList
+     */
     public void clearObsList() 
     {
         obsListMovieCategory.clear();

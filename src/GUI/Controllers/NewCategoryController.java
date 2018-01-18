@@ -6,11 +6,14 @@
 package GUI.Controllers;
 
 import BE.Category;
+import BE.ESException;
 import BE.Movie;
 import GUI.Model.Model;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,6 +41,8 @@ public class NewCategoryController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -48,7 +53,7 @@ public class NewCategoryController implements Initializable
 
 
     @FXML
-    private void saveNewCategoryEvent(ActionEvent event) throws SQLException
+    private void saveNewCategoryEvent(ActionEvent event)
     {
 
         Boolean canMakeCategory = true;
@@ -72,12 +77,18 @@ public class NewCategoryController implements Initializable
             }
             if(canMakeCategory != false)
             {
-                String categoryName = addNewCategoryTextField.getText();
-       
-                model.createCategory(categoryName);
-    
-                Stage stage = (Stage) saveNewCategory.getScene().getWindow();
-                stage.close();               
+                try 
+                {
+                    String categoryName = addNewCategoryTextField.getText();
+                    
+                    model.createCategory(categoryName);
+                    
+                    Stage stage = (Stage) saveNewCategory.getScene().getWindow();               
+                    stage.close();
+                } catch (ESException ex) 
+                {
+                    MainWindowController.showAlertBox(ex.getMessage());
+                }
             }
         }       
         else 
@@ -98,6 +109,10 @@ public class NewCategoryController implements Initializable
         stage.close();
     }
     
+    /**
+     *
+     * @param model
+     */
     public void setModel(Model model) 
     {
         this.model = model;

@@ -139,19 +139,15 @@ public class AddMovieController {
         File selectedFile = fc.showOpenDialog(null);
         if (selectedFile !=null)
         {   
-            try {
-                filePathTxt.setText(selectedFile.getAbsolutePath());
-                System.out.println(selectedFile.getAbsolutePath());
-                String fileName = selectedFile.getName().replace(".mp4", "");
-                URL url = Paths.get(selectedFile.getAbsolutePath()).toUri().toURL();
-                movieTitletxtField.setText(fileName);
-                fileLink = selectedFile.toURI().toString();
-            } catch (MalformedURLException ex) 
-            {
-                MainWindowController.showAlertBox(ex.getMessage());
-            }
-        }
+           
+            filePathTxt.setText(selectedFile.getAbsolutePath());
+            String fileName = selectedFile.getName().replace(".mp4", "");
+            movieTitletxtField.setText(fileName);
+            fileLink = selectedFile.toURI().toString();
         
+        } 
     }
+        
+    
     
 }

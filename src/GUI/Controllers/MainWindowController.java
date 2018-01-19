@@ -389,7 +389,8 @@ public class MainWindowController implements Initializable {
                     if (!c.getList().isEmpty()) {
 
                         model.clearObsList();
-
+                        searchTxtField.clear();
+                        minRatingComboBox.getSelectionModel().select(0);
                         for (Category selectedCategory : c.getList()) {
                             if (selectedCategory != null) {
                                 model.getAllMovieCategory(selectedCategory);

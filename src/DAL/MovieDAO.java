@@ -114,7 +114,8 @@ public class MovieDAO
                 allMovies.add(movie);
             }
             return allMovies;
-        } catch (SQLException ex) {
+        } catch (SQLException ex) 
+        {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new ESException("could not retrieve all movies due to connection error", ex);
         }
